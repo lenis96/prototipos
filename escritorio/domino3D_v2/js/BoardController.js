@@ -41,8 +41,9 @@ DOMINO.BoardController = function (options) {
 
 	    // create camera
 	    camera = new THREE.PerspectiveCamera(35, viewWidth / viewHeight, 1, 1000);
-	    camera.position.set(0, 120, 150);
+	    camera.position.set(squareSize * 4, 120, 150);
 	    cameraController = new THREE.OrbitControls(camera, containerEl);
+	    cameraController.target.set(squareSize * 4, 0, squareSize * 4)
 
 	    scene.add(camera);
 
@@ -52,7 +53,7 @@ DOMINO.BoardController = function (options) {
 	function initLights() {
 	    // top light
 	    lights.topLight = new THREE.PointLight();
-	    lights.topLight.position.set(0, 150, 0);
+	    lights.topLight.position.set(squareSize * 4, 150, squareSize * 4);
 	    lights.topLight.intensity = 1.0;
 
 	    // add the lights in the scene
@@ -106,6 +107,9 @@ DOMINO.BoardController = function (options) {
 	    // load board	    
 		loader.load(assetsUrl + 'board.js', function (geom) {
 		    boardModel = new THREE.Mesh(geom, materials.boardMaterial);
+
+		    // avoid interception with other models
+		    boardModel.position.y = -0.02;
 
 		    scene.add(boardModel);
 		    checkLoad();
