@@ -30,7 +30,9 @@ DOMINO.BoardController = function (options) {
 	    var viewHeight = containerEl.offsetHeight;
 
 	    // instantiate the WebGL Renderer
-	    renderer = new THREE.WebGLRenderer();
+	    renderer = new THREE.WebGLRenderer({
+	    	antialias: true
+	    });
 	    renderer.setSize(viewWidth, viewHeight);
 	    renderer.setClearColor( 0xE7E0D0, 1);
 
@@ -89,7 +91,7 @@ DOMINO.BoardController = function (options) {
 	}
 
 	function initObjects(callback) {
-		var loader = new THREE.OBJLoader();
+		var loader = new THREE.JSONLoader();
 		var loadedObjects = 0;
 		var totalObjects = 1;
 
@@ -100,20 +102,20 @@ DOMINO.BoardController = function (options) {
 	            callback();
 	        }
 	    }
-	    
-		/*loader.load(assetsUrl + 'board.obj', function (geom) {
+
+	    // load board	    
+		loader.load(assetsUrl + 'board.js', function (geom) {
 		    boardModel = new THREE.Mesh(geom, materials.boardMaterial);
 
 		    scene.add(boardModel);
 		    checkLoad();
-		});*/
+		});
 
-		var geometry = new THREE.BoxGeometry( 5, 5, 5 );
-		var mesh = new THREE.Mesh( geometry, materials.boardMaterial );
-		scene.add( mesh );
-
-		checkLoad();
-		scene.add(new THREE.AxesHelper(200));
+		// add ground
+		groundModel = new THREE.Mesh(new THREE.PlaneGeometry(100, 100, 1, 1), materials.groundMaterial);
+		groundModel.position.set(squareSize * 4, -1.52, squareSize * 4);
+		groundModel.rotation.x = -90 * Math.PI / 180;
+		scene.add(groundModel);
 	}
 
 	function onAnimationFrame() {
