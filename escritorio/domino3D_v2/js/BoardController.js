@@ -19,6 +19,7 @@ DOMINO.BoardController = function (options) {
     this.drawBoard = function () {
     	initEngine();
     	initLights();
+    	initMaterials();
     	initObjects(function () {
 		    onAnimationFrame();
 		});
@@ -56,12 +57,63 @@ DOMINO.BoardController = function (options) {
 	    scene.add(lights.topLight);
 	}
 
+	function initMaterials() {
+		var loader = new THREE.TextureLoader();
+
+	    // board material
+	    materials.boardMaterial = new THREE.MeshLambertMaterial({
+	        map: loader.load(assetsUrl + 'board_texture.jpg')
+	    });
+
+	    // ground material
+	    materials.groundMaterial = new THREE.MeshBasicMaterial({
+	    	transparent: true,
+	    	map: loader.load(assetsUrl + 'ground.png')
+	    });
+
+	    // dark square material
+	    materials.darkSquareMaterial = new THREE.MeshLambertMaterial({
+	    	map: loader.load(assetsUrl + 'square_dark_texture.jpg')
+	    });
+	    //
+	    // light square material
+	    materials.lightSquareMaterial = new THREE.MeshLambertMaterial({
+	    	map: loader.load(assetsUrl + 'square_light_texture.jpg')
+	    });
+
+	    // pieces shadow plane material
+	    materials.pieceShadowPlane = new THREE.MeshBasicMaterial({
+	        transparent: true,
+	        map: loader.load(assetsUrl + 'piece_shadow.png')
+	    });
+	}
+
 	function initObjects(callback) {
+		var loader = new THREE.OBJLoader();
+		var loadedObjects = 0;
+		var totalObjects = 1;
+
+		function checkLoad() {
+	        loadedObjects++;
+
+	        if (loadedObjects === totalObjects && callback) {
+	            callback();
+	        }
+	    }
+	    
+		/*loader.load(assetsUrl + 'board.obj', function (geom) {
+		    boardModel = new THREE.Mesh(geom, materials.boardMaterial);
+
+		    scene.add(boardModel);
+		    checkLoad();
+		});*/
+
 		var geometry = new THREE.BoxGeometry( 5, 5, 5 );
-		var material = new THREE.MeshLambertMaterial( { color: 0xFF0000 } );
-		var mesh = new THREE.Mesh( geometry, material );
+		var mesh = new THREE.Mesh( geometry, materials.boardMaterial );
 		scene.add( mesh );
-		callback();
+
+		checkLoad();
+		scene.add(new THREE.AxesHelper(200));
 	}
 
 	function onAnimationFrame() {
