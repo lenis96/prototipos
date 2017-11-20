@@ -14,6 +14,7 @@ DOMINO.BoardController = function (options) {
 	var materials = {};
 	var boardModel;
 	var groundModel;
+	var pieceModel;
 	var squareSize = 10;
 
     this.drawBoard = function () {
@@ -54,10 +55,14 @@ DOMINO.BoardController = function (options) {
 	    // top light
 	    lights.topLight = new THREE.PointLight();
 	    lights.topLight.position.set(squareSize * 4, 150, squareSize * 4);
-	    lights.topLight.intensity = 1.0;
+	    lights.topLight.intensity = 0.8;
+
+		lights.ambientLight = new THREE.AmbientLight(0x404040);
+		lights.ambientLight.intensity = 0.4;
 
 	    // add the lights in the scene
 	    scene.add(lights.topLight);
+	    scene.add(lights.ambientLight);
 	}
 
 	function initMaterials() {
@@ -84,17 +89,17 @@ DOMINO.BoardController = function (options) {
 	    	map: loader.load(assetsUrl + 'square_light_texture.jpg')
 	    });
 
-	    // pieces shadow plane material
-	    materials.pieceShadowPlane = new THREE.MeshBasicMaterial({
-	        transparent: true,
-	        map: loader.load(assetsUrl + 'piece_shadow.png')
+	    // piece material
+	    materials.pieceMaterial = new THREE.MeshPhongMaterial({
+	    	color: 0xd3d3d3,
+	    	shininess: 20
 	    });
 	}
 
 	function initObjects(callback) {
 		var loader = new THREE.JSONLoader();
 		var loadedObjects = 0;
-		var totalObjects = 1;
+		var totalObjects = 2;
 
 		function checkLoad() {
 	        loadedObjects++;
@@ -115,6 +120,19 @@ DOMINO.BoardController = function (options) {
 		    checkLoad();
 		});
 
+		// load piece	    
+		loader.load(assetsUrl + 'domino.js', function (geom) {
+		    pieceModel = new THREE.Mesh(geom, materials.pieceMaterial);
+
+		    pieceModel.scale.set(5,5,5);
+		    pieceModel.position.z = 4 * squareSize;
+		    pieceModel.position.x = 7 * squareSize / 2;
+		    pieceModel.position.y = 4.0;
+
+		    scene.add(pieceModel);
+		    checkLoad();
+		});
+
 		// add ground
 		groundModel = new THREE.Mesh(new THREE.PlaneGeometry(100, 100, 1, 1), materials.groundMaterial);
 		groundModel.position.set(squareSize * 4, -1.52, squareSize * 4);
@@ -123,7 +141,7 @@ DOMINO.BoardController = function (options) {
 
 		// create the board squares
 		var squareMaterial;
-		
+
 		for (var row = 0; row < 8; row++) {
 		    for (var col = 0; col < 8; col++) {
 		        if ((row + col) % 2 === 0) { // light square
