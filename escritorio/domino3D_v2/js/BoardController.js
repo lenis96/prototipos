@@ -120,6 +120,30 @@ DOMINO.BoardController = function (options) {
 		groundModel.position.set(squareSize * 4, -1.52, squareSize * 4);
 		groundModel.rotation.x = -90 * Math.PI / 180;
 		scene.add(groundModel);
+
+		// create the board squares
+		var squareMaterial;
+		
+		for (var row = 0; row < 8; row++) {
+		    for (var col = 0; col < 8; col++) {
+		        if ((row + col) % 2 === 0) { // light square
+		            squareMaterial = materials.lightSquareMaterial;
+		        } else { // dark square
+		            squareMaterial = materials.darkSquareMaterial;
+		        }
+
+		        var square = new THREE.Mesh(new THREE.PlaneGeometry(squareSize, squareSize, 1, 1), squareMaterial);
+
+		        square.position.x = col * squareSize + squareSize / 2;
+		        square.position.z = row * squareSize + squareSize / 2;
+		        square.position.y = -0.01;
+
+		        square.rotation.x = -90 * Math.PI / 180;
+
+		        scene.add(square);
+		    }
+		}
+
 	}
 
 	function onAnimationFrame() {
