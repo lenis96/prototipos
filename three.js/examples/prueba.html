@@ -13,6 +13,7 @@
 	Contact me any time at <a href='https://twitter.com/jerome_etienne' target='_blank'>@jerome_etienne</a>
 </div>
 	<script src="../OBJLoader.js"></script>
+	<script src="../MTLLoader.js"></script>
 <script>
 	//////////////////////////////////////////////////////////////////////////////////
 	//		Init
@@ -147,18 +148,33 @@
 	}); 
 	var mesh	= new THREE.Mesh( geometry, material );
 	mesh.position.y	= geometry.parameters.height/2
-	arWorldRoot.add( mesh );
-	var loader = new THREE.OBJLoader();
 
-		// load a resource
-		loader.load(
-			// resource URL
-			'Wolf_One_obj.obj',
-			// Function when resource is loaded
-			function ( object ) {
-				arWorldRoot.add( object );
-			}
-		);
+	lights={};
+	lights.topLight = new THREE.PointLight();
+        lights.topLight.position.set(10 * 4, 150, 10 * 4);
+		lights.topLight.intensity = 0.4;
+	arWorldRoot.add(lights.topLight);
+	// arWorldRoot.add( mesh ); cubo traslucido
+	// var mtlLoader=new THREE.MTLLoader();
+
+	// // mtlLoader.setPath('jdjs.mtl');
+	// mtlLoader.load('Wolf_One_obj.mtl',function(materials){
+		// materials.preload();
+
+		var objLoader = new THREE.OBJLoader();
+	
+			// load a resource
+			// objLoader.setMaterials(materials);
+			objLoader.load(
+				// resource URL
+				'dog.obj',
+				// Function when resource is loaded
+				function ( object ) {
+					arWorldRoot.add( object );
+				}
+			);
+	// });
+
 	
 	// var geometry	= new THREE.TorusKnotGeometry(0.9,0.1,64,16);
 	// var material	= new THREE.MeshNormalMaterial(); 
