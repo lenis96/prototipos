@@ -110,8 +110,15 @@
 	////////////////////////////////////////////////////////////////////////////////
 	
 	var markerRoot = new THREE.Group
+	var markerRoot2=new THREE.Group
 	scene.add(markerRoot)
+	scene.add(markerRoot2)
 	var artoolkitMarker = new THREEx.ArMarkerControls(arToolkitContext, markerRoot, {
+		type : 'pattern',
+		patternUrl : THREEx.ArToolkitContext.baseURL + '../data/data/patt.hiro'
+		// patternUrl : THREEx.ArToolkitContext.baseURL + '../data/data/patt.kanji'
+	})
+	var artoolkitMarker1 = new THREEx.ArMarkerControls(arToolkitContext, markerRoot2, {
 		type : 'pattern',
 		patternUrl : THREEx.ArToolkitContext.baseURL + '../data/data/patt.hiro'
 		// patternUrl : THREEx.ArToolkitContext.baseURL + '../data/data/patt.kanji'
@@ -132,6 +139,7 @@
 	})
 	onRenderFcts.push(function(delta){
 		smoothedControls.update(markerRoot)
+		smoothedControls.update(markerRoot2)
 	})
 	//////////////////////////////////////////////////////////////////////////////////
 	//		add an object in the scene
@@ -171,6 +179,8 @@
 				// Function when resource is loaded
 				function ( object ) {
 					arWorldRoot.add( object );
+					// markerRoot.add(object);
+					// markerRoot2.add(object);
 				}
 			);
 	// });
