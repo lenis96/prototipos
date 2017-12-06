@@ -107,14 +107,26 @@
 
 	// build markerControls
     var markerRoots=[];
-	var markerRoot1 = new THREE.Group
-	markerRoot1.name = 'marker1'
-	scene.add(markerRoot1)
-	var markerControls = new THREEx.ArMarkerControls(arToolkitContext, markerRoot1, {
-		type : 'pattern',
-		patternUrl : THREEx.ArToolkitContext.baseURL + '../data/data/patt.hiro',
-		// patternUrl : THREEx.ArToolkitContext.baseURL + '../data/data/patt.kanji',
-	})
+	paths=[THREEx.ArToolkitContext.baseURL + '../data/data/patt.hiro',THREEx.ArToolkitContext.baseURL + '../data/data/patt.kanji'];
+	names=["marker1","marker2"];
+    var objLoader = new THREE.OBJLoader();
+	var loadOBJMarker=function(path,marker){
+		objLoader.load(path,function(object){
+			marker.add(object);
+
+		})
+	}
+	for(var i=0;i<paths.length;i++){
+		markerRoot=new THREE.Group;
+		markerRoot.name=names[i];
+		scene.add(markerRoot);
+		var markerControls = new THREEx.ArMarkerControls(arToolkitContext, markerRoot, {
+			type : 'pattern',
+			patternUrl : THREEx.ArToolkitContext.baseURL + paths[i],
+			// patternUrl : THREEx.ArToolkitContext.baseURL + '../data/data/patt.kanji',
+			})
+		loadOBJMarker("dog.obj",markerRoot);
+	}
 
 	// add a gizmo in the center of the marker
 	// var geometry	= new THREE.OctahedronGeometry( 0.1, 0 )
@@ -122,14 +134,9 @@
 		// wireframe: true
 	// }); 
 	// var mesh	= new THREE.Mesh( geometry, material );
-    var objLoader = new THREE.OBJLoader();
 	
 			// load a resource
 			// objLoader.setMaterials(materials);
-    objLoader.load('dog.obj',function ( object ) {
-            markerRoot1.add( object );
-        }
-    );
 
 	//////////////////////////////////////////////////////////////////////////////
 	//		markerRoot2
