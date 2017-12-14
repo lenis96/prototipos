@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<!-- <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"> -->
 <!-- three.js library -->
 <script src='vendor/three.js/build/three.min.js'></script>
 <script src="vendor/three.js/examples/js/libs/stats.min.js"></script>
@@ -26,7 +26,7 @@
 		alpha: true
 	});
 	renderer.setClearColor(new THREE.Color('lightgrey'), 0)
-	renderer.setSize( 640, 480 );
+	renderer.setSize( 1400, 800 );
 	renderer.domElement.style.position = 'absolute'
 	renderer.domElement.style.top = '0px'
 	renderer.domElement.style.left = '0px'
@@ -44,6 +44,7 @@
 
 	// Create a camera
 	var camera = new THREE.Camera();
+	camera.position.set(0,2.0,0);
 	scene.add(camera);
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -115,13 +116,7 @@
     var markerRoots=[];
 	paths=[THREEx.ArToolkitContext.baseURL + '../data/data/patt.hiro',THREEx.ArToolkitContext.baseURL + '../data/data/patt.kanji'];
 	names=["marker1","marker2"];
-    var objLoader = new THREE.OBJLoader();
-	var loadOBJMarker=function(path,marker){
-		objLoader.load(path,function(object){
-			marker.add(object);
-
-		})
-	}
+	
 	for(var i=0;i<paths.length;i++){
 		markerRoot=new THREE.Group;
 		markerRoot.name=names[i];
@@ -132,7 +127,7 @@
 			patternUrl : THREEx.ArToolkitContext.baseURL + paths[i],
 			// patternUrl : THREEx.ArToolkitContext.baseURL + '../data/data/patt.kanji',
 			})
-		// loadOBJMarker("dog.obj",markerRoot);
+		// loadOBJMarker("./../assets/cat.obj","cat.mtl",markerRoot);
 	}
 
 	// add a gizmo in the center of the marker
@@ -167,13 +162,36 @@
 
 
 ;(function(){
+	var geometry = new THREE.BoxGeometry( 100, 1, 100 );
+	var material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
+	var cube = new THREE.Mesh( geometry, material );
+	cube.position.y=-1
+	scene.add( cube );
+	var objLoader = new THREE.OBJLoader();
+    var mtlLoader = new THREE.MTLLoader();
+	mtlLoader.setPath('./../assets/');
+	var loadOBJMarker=function(objPath,mtlPath,parent,position,marker){
+		// adaptado de https://stackoverflow.com/questions/17712857/how-to-load-textures-from-objmtl-files-in-three-js
+		mtlLoader.load(mtlPath, function(materials) {
+			materials.preload();
+				objLoader.setMaterials(materials);
+				objLoader.load(objPath,function(object){
+					object.position.set(0,0,10);
+					object.isShape=true;
+					marker.shape=object;
+					parent.add(object);
+				})
+		})
+	}
 	console.log(scene.children)
 	markers=[];
 	for(var i=0;i<scene.children.length;i++){
 		if(scene.children[i].isMarker){
+			loadOBJMarker("./../assets/cat.obj","cat.mtl",scene,[0,0],scene.children[i]);
 			markers.push(scene.children[i]);
 		}
 	}
+	console.log(markers)
 	// var markerRoot1 = scene.getObjectByName('marker1')
 	// var markerRoot2 = scene.getObjectByName('marker2')
 	
@@ -213,7 +231,7 @@
 		markers.forEach(function(element){
 			// console.log(element.name);
 			if(element.visible){
-
+				element.shape.position.set(element.position.x,0,element.position.y-10);
 				// if(a){
 					// a=false;
 					// console.log(element)
