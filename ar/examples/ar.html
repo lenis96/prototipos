@@ -7,11 +7,12 @@
 <script src="../build/ar.js"></script>
 <script>THREEx.ArToolkitContext.baseURL = '../'</script>
 
-<body style='margin : 0px; overflow: hidden; font-family: Monospace;'><div style='position: absolute; top: 10px; width:100%; text-align: center; z-index: 1;'>
+<body style='margin : 0px; overflow: hidden; font-family: Monospace;'>
+	<!-- <div style='position: absolute; top: 10px; width:100%; text-align: center; z-index: 1;'>
 	<a href="https://github.com/jeromeetienne/AR.js/" target="_blank">AR.js</a> - three.js mobile performance
 	<br/>
 	Contact me any time at <a href='https://twitter.com/jerome_etienne' target='_blank'>@jerome_etienne</a>
-</div>
+</div> -->
 	<script src="../OBJLoader.js"></script>
 	<script src="../MTLLoader.js"></script>
 <script>
@@ -115,10 +116,16 @@
 	paths=[THREEx.ArToolkitContext.baseURL + '../data/data/patt.hiro',THREEx.ArToolkitContext.baseURL + '../data/data/patt.kanji'];
 	names=["marker1","marker2"];
     var objLoader = new THREE.OBJLoader();
-	var loadOBJMarker=function(path,marker){
-		objLoader.load(path,function(object){
-			marker.add(object);
-
+	var mtlLoader = new THREE.MTLLoader();
+	mtlLoader.setPath('./../assets/');
+	var loadOBJMarker=function(objPath,mtlPath,marker){
+		// adaptado de https://stackoverflow.com/questions/17712857/how-to-load-textures-from-objmtl-files-in-three-js
+		mtlLoader.load(mtlPath, function(materials) {
+  			materials.preload();
+  			objLoader.setMaterials(materials);
+			objLoader.load(objPath,function(object){
+				marker.add(object);
+			})
 		})
 	}
 	for(var i=0;i<paths.length;i++){
@@ -131,7 +138,7 @@
 			patternUrl : THREEx.ArToolkitContext.baseURL + paths[i],
 			// patternUrl : THREEx.ArToolkitContext.baseURL + '../data/data/patt.kanji',
 			})
-		loadOBJMarker("dog.obj",markerRoot);
+		loadOBJMarker("./../assets/cat.obj","cat.mtl",markerRoot);
 	}
 
 	// add a gizmo in the center of the marker
