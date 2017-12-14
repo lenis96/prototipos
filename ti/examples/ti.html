@@ -114,7 +114,7 @@
 
 	// build markerControls
     var markerRoots=[];
-	paths=[THREEx.ArToolkitContext.baseURL + '../data/data/patt.hiro',THREEx.ArToolkitContext.baseURL + '../data/data/patt.kanji'];
+	paths=[THREEx.ArToolkitContext.baseURL + '../data/data/marker0.pat',THREEx.ArToolkitContext.baseURL + '../data/data/marker1.pat'];
 	names=["marker1","marker2"];
 	
 	for(var i=0;i<paths.length;i++){
@@ -124,7 +124,7 @@
 		scene.add(markerRoot);
 		var markerControls = new THREEx.ArMarkerControls(arToolkitContext, markerRoot, {
 			type : 'pattern',
-			patternUrl : THREEx.ArToolkitContext.baseURL + paths[i],
+			patternUrl :  paths[i],
 			// patternUrl : THREEx.ArToolkitContext.baseURL + '../data/data/patt.kanji',
 			})
 		// loadOBJMarker("./../assets/cat.obj","cat.mtl",markerRoot);

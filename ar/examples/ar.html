@@ -26,7 +26,7 @@
 		alpha: true
 	});
 	renderer.setClearColor(new THREE.Color('lightgrey'), 0)
-	renderer.setSize( 640, 480 );
+	renderer.setSize( 1400, 800 );
 	renderer.domElement.style.position = 'absolute'
 	renderer.domElement.style.top = '0px'
 	renderer.domElement.style.left = '0px'
@@ -113,11 +113,14 @@
 
 	// build markerControls
     var markerRoots=[];
-	paths=[THREEx.ArToolkitContext.baseURL + '../data/data/patt.hiro',THREEx.ArToolkitContext.baseURL + '../data/data/patt.kanji'];
+	paths=[THREEx.ArToolkitContext.baseURL + '../data/data/marker0.pat',THREEx.ArToolkitContext.baseURL + '../data/data/marker1.pat'];
 	names=["marker1","marker2"];
+	objPaths=["p1.obj","cat.obj"];
+	mtlPaths=["p1.mtl","cat.mtl"];
     var objLoader = new THREE.OBJLoader();
 	var mtlLoader = new THREE.MTLLoader();
 	mtlLoader.setPath('./../assets/');
+	objLoader.setPath("./../assets/");
 	var loadOBJMarker=function(objPath,mtlPath,marker){
 		// adaptado de https://stackoverflow.com/questions/17712857/how-to-load-textures-from-objmtl-files-in-three-js
 		mtlLoader.load(mtlPath, function(materials) {
@@ -135,10 +138,10 @@
 		scene.add(markerRoot);
 		var markerControls = new THREEx.ArMarkerControls(arToolkitContext, markerRoot, {
 			type : 'pattern',
-			patternUrl : THREEx.ArToolkitContext.baseURL + paths[i],
+			patternUrl :  paths[i],
 			// patternUrl : THREEx.ArToolkitContext.baseURL + '../data/data/patt.kanji',
 			})
-		loadOBJMarker("./../assets/cat.obj","cat.mtl",markerRoot);
+		loadOBJMarker(objPaths[i],mtlPaths[i],markerRoot);
 	}
 
 	// add a gizmo in the center of the marker
@@ -217,7 +220,7 @@
 		// console.log(markerRoot1.position);
 		markers.forEach(function(element){
 			console.log(element.name);
-			console.log(element.position);
+			console.log(element.rotation.y);
 		})
 	// 	geometry.vertices[1].copy(markerRoot2.position)
 	// 	geometry.verticesNeedUpdate = true
