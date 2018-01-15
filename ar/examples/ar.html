@@ -13,6 +13,7 @@
 	<br/>
 	Contact me any time at <a href='https://twitter.com/jerome_etienne' target='_blank'>@jerome_etienne</a>
 </div> -->
+	<h2 id="texto" style="color:red">Hola</h2>
 	<script src="../OBJLoader.js"></script>
 	<script src="../MTLLoader.js"></script>
 <script>
@@ -115,6 +116,7 @@
     var markerRoots=[];
 	paths=[THREEx.ArToolkitContext.baseURL + '../data/data/marker0.pat',THREEx.ArToolkitContext.baseURL + '../data/data/marker1.pat'];
 	names=["marker1","marker2"];
+	shapes=[[{shape:"wolf",blocked:false},{shape:"cat",blocked:false}],[{shape:"cat",blocked:false},{shape:"lion",blocked:false}]]
 	objPaths=["p1.obj","cat.obj"];
 	mtlPaths=["p1.mtl","cat.mtl"];
     var objLoader = new THREE.OBJLoader();
@@ -135,6 +137,8 @@
 		markerRoot=new THREE.Group;
 		markerRoot.name=names[i];
 		markerRoot.isMarker=true;
+		markerRoot.shapes=shapes[i];
+		markerRoot.used=false;
 		scene.add(markerRoot);
 		var markerControls = new THREEx.ArMarkerControls(arToolkitContext, markerRoot, {
 			type : 'pattern',
@@ -176,6 +180,32 @@
 
 
 ;(function(){
+	function getAngle(x){
+		x=x*(180/Math.PI)
+		if(x<0){
+			x+=360;
+		}
+		// console.log(x)
+		if(x<=45){
+			return 0;
+		}
+		else if(x<=135){
+			return 1;
+		}
+		else if(x<225){
+			return 2;
+		}
+		else if(x<=315){
+			return 3;
+		}
+		else{
+			return 0;
+		}
+	}
+	var minDistAlign=0.05;
+	var minDistNear=0.4
+	//TODO logic about distance betwen marker
+
 	console.log(scene.children)
 	markers=[];
 	for(var i=0;i<scene.children.length;i++){
@@ -183,6 +213,7 @@
 			markers.push(scene.children[i]);
 		}
 	}
+	texto=document.getElementById("texto");
 	// var markerRoot1 = scene.getObjectByName('marker1')
 	// var markerRoot2 = scene.getObjectByName('marker2')
 	
@@ -214,14 +245,81 @@
 	// container.add(lineMesh)
 
 	// // update lineMesh
+	var animals=[];
+	var timeVisible=30
+	function isOrtogonal(element1,element2){
+		ans=false;
+		console.log({dx:Math.abs(element1.position.x-element2.position.x),dy:Math.abs(element1.position.y-element2.position.y)})
+		if(Math.abs(element1.position.x-element2.position.x)<minDistAlign){
+			if(Math.abs(element1.position.y-element2.position.y)<minDistNear){
+				ans=true;
+			}
+			else{
+				ans=false;
+			}
+		}
+		else if(Math.abs(element1.position.y-element2.position.y)<minDistAlign){
+			if(Math.abs(element1.position.x-element2.position.x)<minDistNear){
+				ans=true;
+			}
+			else{
+				ans=false;
+			}
+		}
+		return ans;
+	}
 	onRenderFcts.push(function(){
 	// 	var geometry = lineMesh.geometry
 	// 	geometry.vertices[0].copy(markerRoot1.position)
 		// console.log(markerRoot1.position);
 		markers.forEach(function(element){
-			console.log(element.name);
-			console.log(element.rotation.y);
+			// console.log(element.name);
+			// console.log(getAngle(element.rotation.y));
+			// console.log(element.timeVisible);
+			if(!element.visible){
+				element.timeVisible=0;
+			}
+			else{
+				element.timeVisible++;
+			}
+			//TODO logica para ver si el marcador se encuentra estatico
+			if(element.timeVisible>=timeVisible && animals.length==0){
+				element.shapes[0].marker=element;
+				element.shapes[1].marker=element;
+				animals.push(element.shapes[0]);
+				animals.push(element.shapes[1]);
+				console.log(animals)
+				element.used=true;
+			}
+			else if(element.timeVisible>=timeVisible && !element.used){//TODO condicion de distancia
+				// console.log(animals[0].shapes[0].shape)
+				console.log(isOrtogonal(element,animals[0].marker));
+				if(element.shapes[0].shape==animals[0].shape && isOrtogonal(element,animals[0].marker)){
+					console.log("lol1")
+					animals.push(element.shapes[1]);
+					element.used=true;
+				}
+				if(element.shapes[0].shape==animals[1].shape && isOrtogonal(element,animals[1].marker)){
+					console.log("lol2")
+					animals.push(element.shapes[1]);
+					element.used=true;
+				}
+				if(element.shapes[1].shape==animals[0].shape && isOrtogonal(element,animals[0].marker)){
+					console.log("lol3")
+					animals.push(element.shapes[0]);
+					element.used=true;
+				}
+				if(element.shapes[1].shape==animals[1].shape && isOrtogonal(element,animals[1].marker)){
+					console.log("lol4")
+					animals.push(element.shapes[0]);
+					element.used=true;
+				}
+				//TODO las otras condiciones
+			}
 		})
+
+		an=markers[0].rotation.y*(180/Math.PI);
+		texto.innerHTML=an
 	// 	geometry.vertices[1].copy(markerRoot2.position)
 	// 	geometry.verticesNeedUpdate = true
 
