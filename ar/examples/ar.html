@@ -203,7 +203,7 @@
 		}
 	}
 	var minDistAlign=0.05;
-	var minDistNear=0.4
+	var minDistNear=1.0;
 	//TODO logic about distance betwen marker
 
 	console.log(scene.children)
@@ -249,7 +249,7 @@
 	var timeVisible=30
 	function isOrtogonal(element1,element2){
 		ans=false;
-		console.log({dx:Math.abs(element1.position.x-element2.position.x),dy:Math.abs(element1.position.y-element2.position.y)})
+		// console.log({dx:Math.abs(element1.position.x-element2.position.x),dy:Math.abs(element1.position.y-element2.position.y)})
 		if(Math.abs(element1.position.x-element2.position.x)<minDistAlign){
 			if(Math.abs(element1.position.y-element2.position.y)<minDistNear){
 				ans=true;
@@ -295,24 +295,32 @@
 				// console.log(animals[0].shapes[0].shape)
 				console.log(isOrtogonal(element,animals[0].marker));
 				if(element.shapes[0].shape==animals[0].shape && isOrtogonal(element,animals[0].marker)){
-					console.log("lol1")
+					animals.splice(0,1);
+					element.shapes[1].marker=element;
 					animals.push(element.shapes[1]);
 					element.used=true;
+					console.log(animals)
 				}
-				if(element.shapes[0].shape==animals[1].shape && isOrtogonal(element,animals[1].marker)){
-					console.log("lol2")
+				else if(element.shapes[0].shape==animals[1].shape && isOrtogonal(element,animals[1].marker)){
+					animals.splice(1,1);
+					element.shapes[1].marker=element;
 					animals.push(element.shapes[1]);
 					element.used=true;
+					console.log(animals)
 				}
-				if(element.shapes[1].shape==animals[0].shape && isOrtogonal(element,animals[0].marker)){
-					console.log("lol3")
+				else if(element.shapes[1].shape==animals[0].shape && isOrtogonal(element,animals[0].marker)){
+					animals.splice(0,1);
+					element.shapes[0].marker=element;
 					animals.push(element.shapes[0]);
 					element.used=true;
+					console.log(animals)
 				}
-				if(element.shapes[1].shape==animals[1].shape && isOrtogonal(element,animals[1].marker)){
-					console.log("lol4")
+				else if(element.shapes[1].shape==animals[1].shape && isOrtogonal(element,animals[1].marker)){
+					animals.splice(1,1);
+					element.shapes[1].marker=element;
 					animals.push(element.shapes[0]);
 					element.used=true;
+					console.log(animals)
 				}
 				//TODO las otras condiciones
 			}
