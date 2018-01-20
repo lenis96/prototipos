@@ -116,9 +116,9 @@
     var markerRoots=[];
 	paths=[THREEx.ArToolkitContext.baseURL + '../data/data/marker0.pat',THREEx.ArToolkitContext.baseURL + '../data/data/marker1.pat'];
 	names=["marker1","marker2"];
-	shapes=[[{shape:"wolf",blocked:false},{shape:"cat",blocked:false}],[{shape:"cat",blocked:false},{shape:"lion",blocked:false}]]
-	objPaths=["p1.obj","cat.obj"];
-	mtlPaths=["p1.mtl","cat.mtl"];
+	shapes=[[{shape:"LOBO",blocked:false},{shape:"GATO",blocked:false}],[{shape:"GATO",blocked:false},{shape:"PAJARO",blocked:false}]]
+	objPaths=["p1.obj","p2.obj"];
+	mtlPaths=["p1.mtl","p2.mtl"];
     var objLoader = new THREE.OBJLoader();
 	var mtlLoader = new THREE.MTLLoader();
 	mtlLoader.setPath('./../assets/');
@@ -202,8 +202,8 @@
 			return 0;
 		}
 	}
-	var minDistAlign=0.05;
-	var minDistNear=1.0;
+	var minDistAlign=4;
+	var minDistNear=5;
 	//TODO logic about distance betwen marker
 
 	console.log(scene.children)
@@ -249,7 +249,7 @@
 	var timeVisible=30
 	function isOrtogonal(element1,element2){
 		ans=false;
-		// console.log({dx:Math.abs(element1.position.x-element2.position.x),dy:Math.abs(element1.position.y-element2.position.y)})
+		console.log({dx:Math.abs(element1.position.x-element2.position.x),dy:Math.abs(element1.position.y-element2.position.y)})
 		if(Math.abs(element1.position.x-element2.position.x)<minDistAlign){
 			if(Math.abs(element1.position.y-element2.position.y)<minDistNear){
 				ans=true;
@@ -327,7 +327,9 @@
 		})
 
 		an=markers[0].rotation.y*(180/Math.PI);
-		texto.innerHTML=an
+		if(animals.length>0){
+			texto.innerHTML=JSON.stringify(animals.map(function(elem){return elem.shape}));
+		}
 	// 	geometry.vertices[1].copy(markerRoot2.position)
 	// 	geometry.verticesNeedUpdate = true
 
