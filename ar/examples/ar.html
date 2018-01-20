@@ -114,15 +114,15 @@
 
 	// build markerControls
     var markerRoots=[];
-	paths=[THREEx.ArToolkitContext.baseURL + '../data/data/marker0.pat',THREEx.ArToolkitContext.baseURL + '../data/data/marker1.pat'];
-	names=["marker1","marker2"];
-	shapes=[[{shape:"LOBO",blocked:false},{shape:"GATO",blocked:false}],[{shape:"GATO",blocked:false},{shape:"PAJARO",blocked:false}]]
-	objPaths=["p1.obj","p2.obj"];
-	mtlPaths=["p1.mtl","p2.mtl"];
+	paths=[THREEx.ArToolkitContext.baseURL + '../data/data/marker0.pat',THREEx.ArToolkitContext.baseURL + '../data/data/marker1.pat',THREEx.ArToolkitContext.baseURL + '../data/data/marker2.pat',THREEx.ArToolkitContext.baseURL + '../data/data/marker3.pat'];
+	names=["marker0","marker1","marker2","marker3"];
+	shapes=[[{shape:"LOBO",blocked:false},{shape:"GATO",blocked:false}],[{shape:"GATO",blocked:false},{shape:"PAJARO",blocked:false}],[{shape:"LOBO",blocked:false},{shape:"OSO",blocked:false}],[{shape:"PAJARO",blocked:false},{shape:"JIRAFA",blocked:false}]]
+	objPaths=["p1.obj","p2.obj","p3.obj","p4.obj"];
+	mtlPaths=["p1.mtl","p2.mtl","p3.mtl","p4.mtl"];
     var objLoader = new THREE.OBJLoader();
 	var mtlLoader = new THREE.MTLLoader();
-	mtlLoader.setPath('./../assets/');
-	objLoader.setPath("./../assets/");
+	mtlLoader.setPath('./../../assets/');
+	objLoader.setPath("./../../assets/");
 	var loadOBJMarker=function(objPath,mtlPath,marker){
 		// adaptado de https://stackoverflow.com/questions/17712857/how-to-load-textures-from-objmtl-files-in-three-js
 		mtlLoader.load(mtlPath, function(materials) {

@@ -1,0 +1,91 @@
+# Blender MTL File: 'None'
+# Material Count: 8
+
+newmtl Bear
+Ns 94.117647
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd Bear_D.tga
+
+newmtl BearEye
+Ns 94.117647
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd Bear_Eye_D.tga
+
+newmtl BearFur
+Ns 94.117647
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.100000 0.100000 0.100000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 2
+map_Kd Bear_Fur_D.tga
+
+newmtl Material.001
+Ns 94.117647
+Ka 0.000000 0.000000 0.000000
+Kd 0.472432 0.472432 0.472432
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd col.jpg
+
+newmtl claws
+Ns 0.000000
+Ka 0.000000 0.000000 0.000000
+Kd 0.167357 0.159407 0.136949
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl eyes
+Ns 0.000000
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd Ordner\Projekte\Privat\001_Cgtrader\Fertig\01_Fertig\AppData\Local\Temp\AppData\Local\Temp\Rar$DIa0.388\02_wolf\eye_2.jpg
+map_Ke Ordner\\Projekte\\Privat\\001_Cgtrader\\Fertig\\01_Fertig\\AppData\\Local\\Temp\\AppData\\Local\\Temp\\Rar$DIa0.388\\02_wolf\\eye_2.jpg
+
+newmtl fur
+Ns 0.000000
+Ka 0.000000 0.000000 0.000000
+Kd 0.026142 0.022739 0.020186
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 2
+map_Kd col.jpg
+map_d Ordner\\Projekte\\Privat\\001_Cgtrader\\Fertig\\01_Fertig\\AppData\\Local\\Temp\\AppData\\Local\\Temp\\Rar$DIa0.388\\02_wolf\\fella3.jpg
+
+newmtl teeth
+Ns 0.000000
+Ka 0.000000 0.000000 0.000000
+Kd 0.167357 0.159407 0.136949
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd Ordner\Projekte\Privat\001_Cgtrader\Fertig\01_Fertig\AppData\Local\Temp\AppData\Local\Temp\Rar$DIa0.388\02_wolf\fella3.jpg
