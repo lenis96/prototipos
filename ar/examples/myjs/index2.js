@@ -87,6 +87,8 @@
 		}
 		return ans;
 	}
+	minA=0;maxA=0;
+	lol=0;
 	onRenderFcts.push(function(){
 	// 	var geometry = lineMesh.geometry
 	// 	geometry.vertices[0].copy(markerRoot1.position)
@@ -144,11 +146,14 @@
 				//TODO las otras condiciones
 			}
 		})
-
-		an=markers[0].rotation.y*(180/Math.PI);
-		if(animals.length>0){
-			texto.innerHTML=JSON.stringify(animals.map(function(elem){return elem.shape}));
-		}
+		var angulo=function(x1,y1,x2,y2){
+			var y=y2-y1,x=x2-x1
+			var res=(Math.atan(y/x)*(180/Math.PI));
+			if(x<0){res+=180;}
+			if(res<0){res+=360;}
+			return res;
+	}
+		texto.innerHTML=angulo(markers[0].position.x,markers[0].position.y,markers[1].position.x,markers[1].position.y)
 	// 	geometry.vertices[1].copy(markerRoot2.position)
 	// 	geometry.verticesNeedUpdate = true
 
