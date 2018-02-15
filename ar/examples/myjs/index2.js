@@ -32,6 +32,11 @@
 			markers.push(scene.children[i]);
 		}
 	}
+	pieces=[];
+	for (var i=0;i<markers.length;){
+		pieces.push([markers[i],markers[i+1]])
+		i+=2
+	}
 	texto=document.getElementById("texto");
 	// var markerRoot1 = scene.getObjectByName('marker1')
 	// var markerRoot2 = scene.getObjectByName('marker2')
@@ -87,63 +92,48 @@
 		}
 		return ans;
 	}
-	minA=0;maxA=0;
-	lol=0;
 	onRenderFcts.push(function(){
 	// 	var geometry = lineMesh.geometry
 	// 	geometry.vertices[0].copy(markerRoot1.position)
-		// console.log(markerRoot1.position);
-		markers.forEach(function(element){
-			// console.log(element.name);
-			// console.log(getAngle(element.rotation.y));
-			// console.log(element.timeVisible);
-			if(!element.visible){
-				element.timeVisible=0;
+		pieces.forEach(function(element){
+			if(!element[0].visible){
+				element[0].timeVisible=0;
 			}
 			else{
-				element.timeVisible++;
+				element[0].timeVisible++;
 			}
-			//TODO logica para ver si el marcador se encuentra estatico
-			if(element.timeVisible>=timeVisible && animals.length==0){
-				element.shapes[0].marker=element;
-				element.shapes[1].marker=element;
-				animals.push(element.shapes[0]);
-				animals.push(element.shapes[1]);
-				console.log(animals)
+			if(!element[1].visible){
+				element[1].timeVisible=0;
+			}
+			else{
+				element[1].timeVisible++;
+			}
+			//TODO logica para ver si el marcador se encuentra estatico, (parece que no se requiere)
+			if(element[0].timeVisible>=timeVisible && element[1].timeVisible>=timeVisible && animals.length==0){
+				animals.push(element[0]);
+				animals.push(element[1]);
+				console.log(animals.map(function(x){return x.shape}));
 				element.used=true;
 			}
-			else if(element.timeVisible>=timeVisible && !element.used){//TODO condicion de distancia
-				// console.log(animals[0].shapes[0].shape)
-				console.log(isOrtogonal(element,animals[0].marker));
-				if(element.shapes[0].shape==animals[0].shape && isOrtogonal(element,animals[0].marker)){
+			else if(element[0].timeVisible>=timeVisible && !element.used){
+				console.log(isOrtogonal(element[0],animals[0]));
+				if(element[0].shape==animals[0].shape && isOrtogonal(element[0],animals[0])){
 					animals.splice(0,1);
-					element.shapes[1].marker=element;
-					animals.push(element.shapes[1]);
+					animals.push(element[1]);
 					element.used=true;
-					console.log(animals)
+					console.log(animals.map(function(x){return x.shape}));
 				}
-				else if(element.shapes[0].shape==animals[1].shape && isOrtogonal(element,animals[1].marker)){
-					animals.splice(1,1);
-					element.shapes[1].marker=element;
-					animals.push(element.shapes[1]);
-					element.used=true;
-					console.log(animals)
+				else if(element[0].shape==animals[1].shape && isOrtogonal(element[0],animals[0])){
+					animals.splice(1,1);animals.push(element[1]);element.used=true;
 				}
-				else if(element.shapes[1].shape==animals[0].shape && isOrtogonal(element,animals[0].marker)){
-					animals.splice(0,1);
-					element.shapes[0].marker=element;
-					animals.push(element.shapes[0]);
-					element.used=true;
-					console.log(animals)
+			}
+			else if(element[1].timeVisible>=timeVisible && !element.used){
+				if(element[1].shape==animals[0].shape && isOrtogonal(element[1],animals[0])){
+					animals.splice(0,1);animals.push(element[0]);element.used=true;
 				}
-				else if(element.shapes[1].shape==animals[1].shape && isOrtogonal(element,animals[1].marker)){
-					animals.splice(1,1);
-					element.shapes[1].marker=element;
-					animals.push(element.shapes[0]);
-					element.used=true;
-					console.log(animals)
+				else if(element[1].shape==animals[1].shape && isOrtogonal(element[1],animals[1])){
+					animals.splice(1,1);animals.push(element[0]);element.used=true;
 				}
-				//TODO las otras condiciones
 			}
 		})
 		var angulo=function(x1,y1,x2,y2){
