@@ -37,6 +37,7 @@
 		pieces.push([markers[i],markers[i+1]])
 		i+=2
 	}
+	console.log(pieces)
 	texto=document.getElementById("texto");
 	// var markerRoot1 = scene.getObjectByName('marker1')
 	// var markerRoot2 = scene.getObjectByName('marker2')
@@ -115,7 +116,7 @@
 				console.log(animals.map(function(x){return x.shape}));
 				element.used=true;
 			}
-			else if(element[0].timeVisible>=timeVisible && !element.used){
+			else if(element[0].timeVisible>=timeVisible && !element.used && animals.length>0){
 				console.log(isOrtogonal(element[0],animals[0]));
 				if(element[0].shape==animals[0].shape && isOrtogonal(element[0],animals[0])){
 					animals.splice(0,1);
@@ -127,7 +128,7 @@
 					animals.splice(1,1);animals.push(element[1]);element.used=true;
 				}
 			}
-			else if(element[1].timeVisible>=timeVisible && !element.used){
+			else if(element[1].timeVisible>=timeVisible && !element.used && animals.length>0){
 				if(element[1].shape==animals[0].shape && isOrtogonal(element[1],animals[0])){
 					animals.splice(0,1);animals.push(element[0]);element.used=true;
 				}
