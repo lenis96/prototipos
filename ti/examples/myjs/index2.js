@@ -71,6 +71,12 @@
 	}
 	var animals=[];
 	var timeVisible=30
+	var showCorrect=function(){
+		document.getElementById("correct").classList.remove("hidden");
+					setTimeout(function(){
+						document.getElementById("correct").classList.add("hidden");
+					},2000);
+	}
 	function isOrtogonal(element1,element2){
 		ans=false;
 		console.log({dx:Math.abs(element1.position.x-element2.position.x),dy:Math.abs(element1.position.y-element2.position.y)})
@@ -163,17 +169,21 @@
 					animals.push(element[1]);
 					element.used=true;
 					console.log(animals.map(function(x){return x.shape}));
+					showCorrect();
 				}
 				else if(element[0].shape==animals[1].shape && isOrtogonal(element[0],animals[0])){
 					animals.splice(1,1);animals.push(element[1]);element.used=true;
+					showCorrect();
 				}
 			}
 			else if(element[1].timeVisible>=timeVisible && !element.used && animals.length>0){
 				if(element[1].shape==animals[0].shape && isOrtogonal(element[1],animals[0])){
 					animals.splice(0,1);animals.push(element[0]);element.used=true;
+					showCorrect();
 				}
 				else if(element[1].shape==animals[1].shape && isOrtogonal(element[1],animals[1])){
 					animals.splice(1,1);animals.push(element[0]);element.used=true;
+					showCorrect();
 				}
 			}
 				
