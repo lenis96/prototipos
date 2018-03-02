@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<!-- <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"> -->
 <!-- three.js library -->
-<script src='vendor/three.js/build/three.min.js'></script>
-<script src="vendor/three.js/examples/js/libs/stats.min.js"></script>
+<script src='../vendor/three.js/build/three.min.js'></script>
+<script src="../vendor/three.js/examples/js/libs/stats.min.js"></script>
 <!-- ar.js -->
 <script src="../build/ar.js"></script>
 <script>THREEx.ArToolkitContext.baseURL = '../'</script>
@@ -15,7 +15,6 @@
 </div> -->
 	<h2 id="texto" style="color:red">Hola</h2>
 	<img src="img/correct.jpg" id="correct" class="hidden" alt="">
-	<h2 class="score" id="score"></h2>
 	<script src="../OBJLoader.js"></script>
     <script src="../MTLLoader.js"></script>
     <script src="myjs/init.js"></script>
@@ -80,12 +79,11 @@
 		-webkit-transform: scaleY(1.0);
 	}
 }
-.hidden{
+video{
 	display: none;
 }
-.score{
-	font-family: sans-serif;
-	color: azure;
+.hidden{
+	display: none;
 }
 </style>
 
