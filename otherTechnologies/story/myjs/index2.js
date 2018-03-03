@@ -6,7 +6,6 @@
 		if(res<0){res+=360;}
 		return res;
 	}
-	console.log(angulo(-2,3,2,4))
 	var minDistAlign=4;
 	var minDistNear=5;
 
@@ -34,7 +33,7 @@
 				objLoader.setMaterials(materials);
 				objLoader.load(objPath,function(object){
 					object.position.set(0,0,10);
-					// object.rotateY(90);
+					object.rotateY(90);
 					object.isShape=true;
 					marker.grid=object;
 					parent.add(object);
@@ -123,14 +122,21 @@
 		// console.log(markerRoot1.position);
 		pieces.forEach(function(element){
 			// console.log(element.name);
-			if(element[0].visible && element[1].visible){
-				var x=(element[0].position.x+element[1].position.x)/2;
-				var y=(element[0].position.y+element[1].position.y)/2;
-				var currentAng=(Math.PI*angulo(element[0].position.x,element[0].position.y,element[1].position.x,element[1].position.y))/180;
-				element[0].grid.position.set(x+(0.5*Math.sin(currentAng)),0,y+(0.5*Math.cos(currentAng)));
-				element[1].grid.position.set(x-(0.5*Math.sin(currentAng)),0,y-(0.5*Math.cos(currentAng)));
-				element[0].grid.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0),currentAng);
-				element[1].grid.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0),currentAng);
+			if(element[0].visible){
+				element[0].grid.position.set(element[0].position.x,0,element[0].position.y-10);
+				element[0].grid.rotateY((-1)*element[2]);
+				element[2]=angulo(element[0].position.x,element[0].position.y,element[1].position.x,element[1].position.y)
+				element[2]=(element[2] * Math.PI)/180;
+				document.getElementById("texto").innerHTML=element[2];
+				element[0].grid.rotateY(element[2]);
+			}
+			if(element[1].visible){
+				element[1].grid.position.set(element[1].position.x,0,element[1].position.y-10);
+				element[1].grid.rotateY((-1)*element[2]);
+				element[2]=angulo(element[0].position.x,element[0].position.y,element[1].position.x,element[1].position.y)
+				element[2]=(element[2] * Math.PI)/180;
+				document.getElementById("texto").innerHTML=element[2];
+				element[1].grid.rotateY(element[2]);
 			}
 			if(!element[0].visible){
 				element[0].timeVisible=0;

@@ -26,7 +26,7 @@
 
 	// Create a camera
 	var camera = new THREE.Camera();
-	camera.position.set(0,2.0,10);
+	camera.position.set(0,2.0,0);
 	scene.add(camera);
 
 	////////////////////////////////////////////////////////////////////////////////

@@ -1,26 +1,4 @@
 ;(function(){
-	function getAngle(x){
-		x=x*(180/Math.PI)
-		if(x<0){
-			x+=360;
-		}
-		// console.log(x)
-		if(x<=45){
-			return 0;
-		}
-		else if(x<=135){
-			return 1;
-		}
-		else if(x<225){
-			return 2;
-		}
-		else if(x<=315){
-			return 3;
-		}
-		else{
-			return 0;
-		}
-	}
 	var minDistAlign=4;
 	var minDistNear=5;
 	//TODO logic about distance betwen marker
@@ -157,7 +135,7 @@
 			if(x<0){res+=180;}
 			if(res<0){res+=360;}
 			return res;
-	}
+		}
 		texto.innerHTML=angulo(markers[0].position.x,markers[0].position.y,markers[1].position.x,markers[1].position.y)
 	// 	geometry.vertices[1].copy(markerRoot2.position)
 	// 	geometry.verticesNeedUpdate = true
