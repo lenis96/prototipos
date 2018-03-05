@@ -46,15 +46,9 @@
 			markers.push(scene.children[i]);
 		}
 	}
-	pieces=[];
-	for (var i=0;i<markers.length;){
-		pieces.push([markers[i],markers[i+1],0])
-		i+=2
-	}
 	for(var i=0;i<markers.length;i++){
 		loadOBJMarker(objPaths[i],mtlPaths[i],scene,[0,0],markers[i])
 	}
-	var animals=[];
 	var timeVisible=30
 	var showCorrect=function(){
 		document.getElementById("correct").classList.remove("hidden");
@@ -83,119 +77,8 @@
 		}
 		return ans;
 	}
-	// console.log(markers)
-	// var markerRoot1 = scene.getObjectByName('marker1')
-	// var markerRoot2 = scene.getObjectByName('marker2')
-	
-	// var container = new THREE.Group
-	// scene.add(container)
-
-	// // update container.visible and scanningSpinner visibility
-	// onRenderFcts.push(function(){
-	// 	if( markerRoot1.visible === true && markerRoot2.visible === true ){
-	// 		container.visible = true
-	// 		document.querySelector('.scanningSpinner').style.display = 'none'
-	// 	}else{
-	// 		container.visible = false
-	// 		document.querySelector('.scanningSpinner').style.display = ''
-	// 	}
-	// })
-	
-	// //////////////////////////////////////////////////////////////////////////////
-	// //		build lineMesh
-	// //////////////////////////////////////////////////////////////////////////////
-	// var material = new THREE.LineDashedMaterial( {
-	// 	dashSize: 1,
-	// 	gapSize: 1,
-	// } );
-	// var geometry = new THREE.Geometry();
-	// geometry.vertices.push(new THREE.Vector3(1, 0, -3));
-	// geometry.vertices.push(new THREE.Vector3(-1, 0, -3));
-	// var lineMesh = new THREE.Line(geometry, material);
-	// container.add(lineMesh)
-
-	// // update lineMesh
-	a=true;
 	onRenderFcts.push(function(){
-	// 	var geometry = lineMesh.geometry
-	// 	geometry.vertices[0].copy(markerRoot1.position)
-		// console.log(markerRoot1.position);
-		pieces.forEach(function(element){
-			// console.log(element.name);
-			if(element[0].visible){
-				element[0].grid.position.set(element[0].position.x,0,element[0].position.y-10);
-				element[0].grid.rotateY((-1)*element[2]);
-				element[2]=angulo(element[0].position.x,element[0].position.y,element[1].position.x,element[1].position.y)
-				element[2]=(element[2] * Math.PI)/180;
-				document.getElementById("texto").innerHTML=element[2];
-				element[0].grid.rotateY(element[2]);
-			}
-			if(element[1].visible){
-				element[1].grid.position.set(element[1].position.x,0,element[1].position.y-10);
-				element[1].grid.rotateY((-1)*element[2]);
-				element[2]=angulo(element[0].position.x,element[0].position.y,element[1].position.x,element[1].position.y)
-				element[2]=(element[2] * Math.PI)/180;
-				document.getElementById("texto").innerHTML=element[2];
-				element[1].grid.rotateY(element[2]);
-			}
-			if(!element[0].visible){
-				element[0].timeVisible=0;
-			}
-			else{
-				element[0].timeVisible++;
-			}
-			if(!element[1].visible){
-				element[1].timeVisible=0;
-			}
-			else{
-				element[1].timeVisible++;
-			}
-			//TODO logica para ver si el marcador se encuentra estatico
-			if(element[0].timeVisible>=timeVisible && element[1].timeVisible>=timeVisible && animals.length==0){
-				animals.push(element[0]);
-				animals.push(element[1]);
-				console.log(animals.map(function(x){return x.shape}));
-				element.used=true;
-			}
-			
-			else if(element[0].timeVisible>=timeVisible && !element.used && animals.length>0){
-				if(element[0].shape==animals[0].shape && isOrtogonal(element[0],animals[0])){
-					animals.splice(0,1);
-					animals.push(element[1]);
-					element.used=true;
-					console.log(animals.map(function(x){return x.shape}));
-					showCorrect();
-				}
-				else if(element[0].shape==animals[1].shape && isOrtogonal(element[0],animals[0])){
-					animals.splice(1,1);animals.push(element[1]);element.used=true;
-					showCorrect();
-				}
-			}
-			else if(element[1].timeVisible>=timeVisible && !element.used && animals.length>0){
-				if(element[1].shape==animals[0].shape && isOrtogonal(element[1],animals[0])){
-					animals.splice(0,1);animals.push(element[0]);element.used=true;
-					showCorrect();
-				}
-				else if(element[1].shape==animals[1].shape && isOrtogonal(element[1],animals[1])){
-					animals.splice(1,1);animals.push(element[0]);element.used=true;
-					showCorrect();
-				}
-			}
-				
-		})
-
-		// if(animals.length>0){
-		// 	texto.innerHTML=JSON.stringify(animals.map(function(elem){return elem.shape}));
-		// }
-	// 	geometry.vertices[1].copy(markerRoot2.position)
-	// 	geometry.verticesNeedUpdate = true
-
-	// 	geometry.computeBoundingSphere();
-	// 	geometry.computeLineDistances();
-		
-	// 	var length = markerRoot1.position.distanceTo(markerRoot2.position)
-	// 	lineMesh.material.scale = length * 10
-	// 	lineMesh.material.needsUpdate = true
+	
 	})
 
 

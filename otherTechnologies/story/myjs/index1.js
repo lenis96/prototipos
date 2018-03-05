@@ -14,20 +14,13 @@
     var markerRoots=[];
 	paths=[THREEx.ArToolkitContext.baseURL + '../data/data/marker0.pat',THREEx.ArToolkitContext.baseURL + '../data/data/marker1.pat',THREEx.ArToolkitContext.baseURL + '../data/data/marker2.pat',THREEx.ArToolkitContext.baseURL + '../data/data/marker3.pat',
 	THREEx.ArToolkitContext.baseURL + '../data/data/marker4.pat',THREEx.ArToolkitContext.baseURL + '../data/data/marker5.pat'];
-	names=["marker0","marker1","marker2","marker3"];
-	shapes=[{shape:"LOBO",blocked:false},
-			{shape:"GATO",blocked:false},
-			{shape:"LOBO",blocked:false},
-			{shape:"PAJARO",blocked:false},
-			{shape:"GATO",blocked:false},
-			{shape:"PAJARP",blocked:false}]
+	names=["player","option1A","option1B","marker3"];
 	objPaths=["p1.obj","p2.obj","p3.obj","p4.obj","p1.obj","p2.obj"];
 	mtlPaths=["p1.mtl","p2.mtl","p3.mtl","p4.mtl","p1.mtl","p2.mtl"];
 	for(var i=0;i<paths.length;i++){
 		markerRoot=new THREE.Group;
-		markerRoot.name="marker"+i.toString();
+		markerRoot.name=names[i];
 		markerRoot.isMarker=true;
-		markerRoot.shape=shapes[i].shape;
 		markerRoot.used=false;
 		scene.add(markerRoot);
 		var markerControls = new THREEx.ArMarkerControls(arToolkitContext, markerRoot, {
