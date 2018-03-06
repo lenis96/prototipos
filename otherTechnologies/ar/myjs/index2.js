@@ -17,6 +17,11 @@
 	}
 	console.log(pieces)
 	texto=document.getElementById("texto");
+	var player={score:0,addScore:function(){
+		this.score++;
+	},getScore:function(){
+		return this.score;
+	}};
 	// var markerRoot1 = scene.getObjectByName('marker1')
 	// var markerRoot2 = scene.getObjectByName('marker2')
 	
@@ -51,10 +56,16 @@
 	var animals=[];
 	var timeVisible=30
 	var score=0;
-	document.getElementById("score").innerText="Puntaje: "+score;
+	var turn={turn:"p1",changeTurn:function(){
+		if(this.turn=="p1"){this.turn="p2";}
+		else{this.turn="p1";}
+	},
+	getTurn:function(){
+		return this.turn;
+	}};
+	document.getElementById("score").innerText="Puntaje: "+player.getScore();
 	var showCorrect=function(){
-		score++;
-		document.getElementById("score").innerText="Puntaje: "+score;
+		document.getElementById("score").innerText="Puntaje: "+player.getScore();
 		document.getElementById("correct").classList.remove("hidden");
 					setTimeout(function(){
 						document.getElementById("correct").classList.add("hidden");
@@ -82,8 +93,6 @@
 		return ans;
 	}
 	onRenderFcts.push(function(){
-	// 	var geometry = lineMesh.geometry
-	// 	geometry.vertices[0].copy(markerRoot1.position)
 		pieces.forEach(function(element){
 			if(!element[0].visible){
 				element[0].timeVisible=0;
@@ -103,6 +112,7 @@
 				animals.push(element[1]);
 				console.log(animals.map(function(x){return x.shape}));
 				element.used=true;
+				turn.changeTurn();
 			}
 			else if(element[0].timeVisible>=timeVisible && !element.used && animals.length>0){
 				console.log(isOrtogonal(element[0],animals[0]));
@@ -111,20 +121,32 @@
 					animals.push(element[1]);
 					element.used=true;
 					console.log(animals.map(function(x){return x.shape}));
+					if(turn.getTurn()=="p2"){
+						player.addScore();
+					}
 					showCorrect();
 				}
 				else if(element[0].shape==animals[1].shape && isOrtogonal(element[0],animals[0])){
 					animals.splice(1,1);animals.push(element[1]);element.used=true;
+					if(turn.getTurn()=="p2"){
+						player.addScore();
+					}
 					showCorrect();
 				}
 			}
 			else if(element[1].timeVisible>=timeVisible && !element.used && animals.length>0){
 				if(element[1].shape==animals[0].shape && isOrtogonal(element[1],animals[0])){
 					animals.splice(0,1);animals.push(element[0]);element.used=true;
+					if(turn.getTurn()=="p2"){
+						player.addScore();
+					}
 					showCorrect();
 				}
 				else if(element[1].shape==animals[1].shape && isOrtogonal(element[1],animals[1])){
 					showCorrect();
+					if(turn.getTurn()=="p2"){
+						player.addScore();
+					}
 					animals.splice(1,1);animals.push(element[0]);element.used=true;
 				}
 			}
