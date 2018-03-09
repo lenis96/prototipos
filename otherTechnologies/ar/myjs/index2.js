@@ -67,7 +67,6 @@
 		return ans;
 	}
 	onRenderFcts.push(function(){
-		showCorrect();
 		pieces.forEach(function(element){
 			if(!element[0].visible){
 				element[0].timeVisible=0;
