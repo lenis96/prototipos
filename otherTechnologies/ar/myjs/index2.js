@@ -1,16 +1,21 @@
 ;(function(){
+	var angulo=function(x1,y1,x2,y2){
+		var y=y2-y1,x=x2-x1
+		var res=(Math.atan(y/x)*(180/Math.PI));
+		if(x<0){res+=180;}
+		if(res<0){res+=360;}
+		return res;
+	}
 	var minDistAlign=4;
 	var minDistNear=5;
-	//TODO logic about distance betwen marker
 
-	console.log(scene.children)
-	markers=[];
+	var markers=[];
 	for(var i=0;i<scene.children.length;i++){
 		if(scene.children[i].isMarker){
 			markers.push(scene.children[i]);
 		}
 	}
-	pieces=[];
+	var pieces=[];
 	for (var i=0;i<markers.length;){
 		pieces.push([markers[i],markers[i+1]])
 		i+=2
@@ -22,37 +27,6 @@
 	},getScore:function(){
 		return this.score;
 	}};
-	// var markerRoot1 = scene.getObjectByName('marker1')
-	// var markerRoot2 = scene.getObjectByName('marker2')
-	
-	// var container = new THREE.Group
-	// scene.add(container)
-
-	// // update container.visible and scanningSpinner visibility
-	// onRenderFcts.push(function(){
-	// 	if( markerRoot1.visible === true && markerRoot2.visible === true ){
-	// 		container.visible = true
-	// 		document.querySelector('.scanningSpinner').style.display = 'none'
-	// 	}else{
-	// 		container.visible = false
-	// 		document.querySelector('.scanningSpinner').style.display = ''
-	// 	}
-	// })
-	
-	// //////////////////////////////////////////////////////////////////////////////
-	// //		build lineMesh
-	// //////////////////////////////////////////////////////////////////////////////
-	// var material = new THREE.LineDashedMaterial( {
-	// 	dashSize: 1,
-	// 	gapSize: 1,
-	// } );
-	// var geometry = new THREE.Geometry();
-	// geometry.vertices.push(new THREE.Vector3(1, 0, -3));
-	// geometry.vertices.push(new THREE.Vector3(-1, 0, -3));
-	// var lineMesh = new THREE.Line(geometry, material);
-	// container.add(lineMesh)
-
-	// // update lineMesh
 	var animals=[];
 	var timeVisible=30
 	var score=0;
@@ -93,6 +67,7 @@
 		return ans;
 	}
 	onRenderFcts.push(function(){
+		showCorrect();
 		pieces.forEach(function(element){
 			if(!element[0].visible){
 				element[0].timeVisible=0;
@@ -151,62 +126,6 @@
 				}
 			}
 		})
-		var angulo=function(x1,y1,x2,y2){
-			var y=y2-y1,x=x2-x1
-			var res=(Math.atan(y/x)*(180/Math.PI));
-			if(x<0){res+=180;}
-			if(res<0){res+=360;}
-			return res;
-		}
-		texto.innerHTML=angulo(markers[0].position.x,markers[0].position.y,markers[1].position.x,markers[1].position.y)
-	// 	geometry.vertices[1].copy(markerRoot2.position)
-	// 	geometry.verticesNeedUpdate = true
-
-	// 	geometry.computeBoundingSphere();
-	// 	geometry.computeLineDistances();
-		
-	// 	var length = markerRoot1.position.distanceTo(markerRoot2.position)
-	// 	lineMesh.material.scale = length * 10
-	// 	lineMesh.material.needsUpdate = true
 	})
-
-
-	// //////////////////////////////////////////////////////////////////////////////
-	// //		display the distance between the 2 markers
-	// //////////////////////////////////////////////////////////////////////////////
-
-	// // build texture
-	// var canvas = document.createElement( 'canvas' );
-	// canvas.width = 128;
-	// canvas.height = 64;
-	// var context = canvas.getContext( '2d' );
-	// var texture = new THREE.CanvasTexture( canvas );
-
-	// // build sprite
-	// var material = new THREE.SpriteMaterial({
-	// 	map: texture, 
-	// 	color: 0xffffff, 
-	// });
-	// var sprite = new THREE.Sprite( material );
-	// sprite.scale.multiplyScalar(0.5)
-	// container.add(sprite)
-
-	// // upload measure
-	// onRenderFcts.push(function(){
-	// 	// update sprite position
-	// 	sprite.position.addVectors(markerRoot1.position, markerRoot2.position).multiplyScalar(1/2)
-
-	// 	// get the text to display
-	// 	var length = markerRoot1.position.distanceTo(markerRoot2.position)
-	// 	var text = length.toFixed(2)
-		
-	// 	// put the text in the sprite
-	// 	context.font = '40px monospace';
-	// 	context.clearRect( 0, 0, canvas.width, canvas.height );
-	// 	context.fillStyle = '#fff';
-	// 	context.fillText(text, canvas.width/4, 3*canvas.height/4 )
-	// 	sprite.material.map.needsUpdate = true
-	// })
-	
 })()
 	
