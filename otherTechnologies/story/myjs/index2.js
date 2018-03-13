@@ -77,47 +77,81 @@
 		}
 		return ans;
 	}
+	console.log(markers)
+	var dist=3;
+	var game={
+		question:0, nextQuestion:function(){
+			this.question++;
+		},getQuestion:function(){
+			return this.questions[this.question];
+		},
+		isCorrect(res){
+			if(res==="A"){
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
+	}
+	var player={score:0,addScore:function(){
+		this.score++;
+	},getScore:function(){
+		return this.score;
+	}};
+	isNear=function(x1,y1,x2,y2){
+		if(Math.sqrt(((x1-x2)*(x1-x2))+((y1-y2)*(y1-y2)))<=dist){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	var showCorrect=function(){
+		document.getElementById("correct").classList.remove("hidden");
+					setTimeout(function(){
+						document.getElementById("correct").classList.add("hidden");
+					},2000);
+	}
+	var showIncorrect=function(){
+		document.getElementById("incorrect").classList.remove("hidden");
+					setTimeout(function(){
+						document.getElementById("correct").classList.add("hidden");
+					},2000);
+	}
 	onRenderFcts.push(function(){
+		markers.forEach(function(element){
+			// console.log(element.name);
+			if(element.visible){
+				// var x=(element[0].position.x+element[1].position.x)/2;
+				// var y=(element[0].position.y+element[1].position.y)/2;
+				// var currentAng=(Math.PI*angulo(element[0].position.x,element[0].position.y,element[1].position.x,element[1].position.y))/180;
+				element.grid.position.set(x,0,y);
+				// element[1].grid.position.set(x-(0.5*Math.sin(currentAng)),0,y-(0.5*Math.cos(currentAng)));
+				// element[0].grid.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0),currentAng);
+				// element[1].grid.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0),currentAng);
 	
+			}
+
+		})
 	})
-
-
-	// //////////////////////////////////////////////////////////////////////////////
-	// //		display the distance between the 2 markers
-	// //////////////////////////////////////////////////////////////////////////////
-
-	// // build texture
-	// var canvas = document.createElement( 'canvas' );
-	// canvas.width = 128;
-	// canvas.height = 64;
-	// var context = canvas.getContext( '2d' );
-	// var texture = new THREE.CanvasTexture( canvas );
-
-	// // build sprite
-	// var material = new THREE.SpriteMaterial({
-	// 	map: texture, 
-	// 	color: 0xffffff, 
-	// });
-	// var sprite = new THREE.Sprite( material );
-	// sprite.scale.multiplyScalar(0.5)
-	// container.add(sprite)
-
-	// // upload measure
-	// onRenderFcts.push(function(){
-	// 	// update sprite position
-	// 	sprite.position.addVectors(markerRoot1.position, markerRoot2.position).multiplyScalar(1/2)
-
-	// 	// get the text to display
-	// 	var length = markerRoot1.position.distanceTo(markerRoot2.position)
-	// 	var text = length.toFixed(2)
-		
-	// 	// put the text in the sprite
-	// 	context.font = '40px monospace';
-	// 	context.clearRect( 0, 0, canvas.width, canvas.height );
-	// 	context.fillStyle = '#fff';
-	// 	context.fillText(text, canvas.width/4, 3*canvas.height/4 )
-	// 	sprite.material.map.needsUpdate = true
-	// })
-	
+	if(isNear(markers[0].position.x,markers[0].position.y,markers[1].position.x,markers[1].position.y)){
+		if(game.isCorrect("A")){
+			showCorrect();
+			game.nextQuestion();
+		}
+		else{
+			showIncorrect();
+		}
+	}
+	else if(isNear(markers[0].position.x,markers[0].position.y,markers[2].position.x,markers[2].position.y)){
+		if(game.isCorrect("B")){
+			showCorrect();
+			game.nextQuestion();
+		}
+		else{
+			showIncorrect();
+		}
+	}
 })()
 	
