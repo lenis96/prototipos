@@ -49,6 +49,10 @@
 		loadOBJMarker(objPaths[i],mtlPaths[i],scene,[0,0],markers[i])
 	}
 	var player={score:0,addScore:function(){
+		var elem=document.createElement("img");
+		elem.src="img/happy.png";
+		elem.width="50";
+		document.getElementById("scores").appendChild(elem);
 		this.score++;
 	},getScore:function(){
 		return this.score;
@@ -63,11 +67,13 @@
 	getTurn:function(){
 		return this.turn;
 	}};
-	document.getElementById("score").innerText="Puntaje: "+player.getScore();
+	// document.getElementById("score").innerText="Puntaje: "+player.getScore();
 	var showCorrect=function(){
-		document.getElementById("score").innerText="Puntaje: "+player.getScore();
+		// document.getElementById("score").innerText="Puntaje: "+player.getScore();
 		document.getElementById("correct").classList.remove("hidden");
+		document.getElementById("correct").classList.add("img");
 					setTimeout(function(){
+						document.getElementById("correct").classList.remove("img");
 						document.getElementById("correct").classList.add("hidden");
 					},2000);
 	}
