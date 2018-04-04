@@ -16,7 +16,17 @@ DOMINO.BoardController = function (options) {
 	var groundModel;
 	var pieceModel;
 	var squareSize = 10;
-
+	var projector;
+	var board = [
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0]
+    ];
     this.drawBoard = function () {
     	initEngine();
     	initLights();
@@ -24,6 +34,8 @@ DOMINO.BoardController = function (options) {
     	initObjects(function () {
 		    onAnimationFrame();
 		});
+
+		initListeners();
 	};
 
 	function initEngine() {
@@ -37,6 +49,7 @@ DOMINO.BoardController = function (options) {
 	    renderer.setSize(viewWidth, viewHeight);
 	    renderer.setClearColor( 0xE7E0D0, 1);
 
+		projector = new THREE.Projector();
 	    // create the scene
 	    scene = new THREE.Scene();
 
@@ -164,10 +177,210 @@ DOMINO.BoardController = function (options) {
 
 	}
 
+	function initListeners() {
+        var domElement = renderer.domElement;
+     
+        domElement.addEventListener('mousedown', onMouseDown, false);
+        domElement.addEventListener('mouseup', onMouseUp, false);
+    }
+
 	function onAnimationFrame() {
 	    requestAnimationFrame(onAnimationFrame);
 	    cameraController.update();
 	    renderer.render(scene, camera);
 	}
+	
+	function onMouseDown(event) {
+        var mouse3D = getMouse3D(event);
+     
+        if (isMouseOnBoard(mouse3D)) {
+            if (isPieceOnMousePosition(mouse3D)) {
+                selectPiece(mouse3D);
+                renderer.domElement.addEventListener('mousemove', onMouseMove, false);
+            }
+         
+			cameraController.userRotate = false;
+			
+        }
+    }
+    
+    /**
+     * On mouse up.
+     * @param {MouseEvent} event
+     */
+    function onMouseUp(event) {
+        renderer.domElement.removeEventListener('mousemove', onMouseMove, false);
+     
+        var mouse3D = getMouse3D(event);
+     
+        if (isMouseOnBoard(mouse3D) && selectedPiece) {
+            var toBoardPos = worldToBoard(mouse3D);
+     
+            if (toBoardPos[0] === selectedPiece.boardPos[0] && toBoardPos[1] === selectedPiece.boardPos[1]) {
+                deselectPiece();
+            } else {
+                if (callbacks.pieceCanDrop && callbacks.pieceCanDrop(selectedPiece.boardPos, toBoardPos, selectedPiece.obj.color)) {
+                    instance.movePiece(selectedPiece.boardPos, toBoardPos);
+     
+                    if (callbacks.pieceDropped) {
+                        callbacks.pieceDropped(selectedPiece.boardPos, toBoardPos, selectedPiece.obj.color);
+                    }
+     
+                    selectedPiece = null;
+                } else {
+                    deselectPiece();
+                }
+            }
+        } else {
+            deselectPiece();
+        }
+     
+        cameraController.userRotate = true;
+    }
+
+    /**
+     * On mouse move.
+     * @param {MouseEvent} event
+     */
+    function onMouseMove(event) {
+        var mouse3D = getMouse3D(event);
+        
+        // drag selected piece
+        if (selectedPiece) {
+            selectedPiece.obj.position.x = mouse3D.x;
+            selectedPiece.obj.position.z = mouse3D.z;
+            
+            // lift piece
+            selectedPiece.obj.children[0].position.y = 0.75;
+        }
+    }
+    
+    /**
+     * Converts the board position to 3D world position.
+     * @param {Array} pos The board position.
+     * @returns {THREE.Vector3}
+     */
+    function boardToWorld (pos) {
+	    var x = (1 + pos[1]) * squareSize - squareSize / 2;
+	    var z = (1 + pos[0]) * squareSize - squareSize / 2;
+	 
+	    return new THREE.Vector3(x, 0, z);
+	}
+
+    /**
+     * Converts the world position to board position array.
+     * @param {THREE.Vector3} pos
+     * @returns {Array|Boolean} False if position was outside the board.
+     */
+    function worldToBoard(pos) {
+        var i = 8 - Math.ceil((squareSize * 8 - pos.z) / squareSize);
+        var j = Math.ceil(pos.x / squareSize) - 1;
+     
+        if (i > 7 || i < 0 || j > 7 || j < 0 || isNaN(i) || isNaN(j)) {
+            return false;
+        }
+     
+        return [i, j];
+    }
+
+    /**
+     * Gets the mouse point in 3D for the XZ plane (Y == 0).
+     * @param {MouseEvent} mouseEvent
+     * @returns {THREE.Vector3}
+     */
+    function getMouse3D(mouseEvent) {
+        var x, y;
+        //
+        if (mouseEvent.offsetX !== undefined) {
+            x = mouseEvent.offsetX;
+            y = mouseEvent.offsetY;
+        } else {
+            x = mouseEvent.layerX;
+            y = mouseEvent.layerY;
+        }
+     
+        var pos = new THREE.Vector3(0, 0, 0);
+        var pMouse = new THREE.Vector3(
+            (x / renderer.domElement.width) * 2 - 1,
+           -(y / renderer.domElement.height) * 2 + 1,
+           1
+        );
+        //
+        projector.unprojectVector(pMouse, camera);
+     
+        var cam = camera.position;
+        var m = pMouse.y / ( pMouse.y - cam.y );
+     
+        pos.x = pMouse.x + ( cam.x - pMouse.x ) * m;
+        pos.z = pMouse.z + ( cam.z - pMouse.z ) * m;
+     
+        return pos;
+    }
+
+    /**
+     * Test if the mouse position is on the board.
+     * @param {THREE.Vector3} pos Mouse position.
+     * @returns {Boolean}
+     */
+    function isMouseOnBoard(pos) {
+        if (pos.x >= 0 && pos.x <= squareSize * 8 &&
+            pos.z >= 0 && pos.z <= squareSize * 8) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Test if there's a piece on mouse position.
+     * @param {THREE.Vector3} pos Mouse position.
+     * @returns {Boolean}
+     */
+    function isPieceOnMousePosition(pos) {
+        var boardPos = worldToBoard(pos);
+     
+        if (boardPos && board[ boardPos[0] ][ boardPos[1] ] !== 0) {
+            return true;
+        }
+     
+        return false;
+    }
+
+    /**
+     * Selects a piece on the board.
+     * @param {THREE.Vector3} pos The projected mouse coordinates to 3D.
+     * @returns {Boolean} False if there's no piece to select.
+     */
+    function selectPiece(pos) {
+        var boardPos = worldToBoard(pos);
+     
+        // check for piece presence
+        if (board[ boardPos[0] ][ boardPos[1] ] === 0) {
+            selectedPiece = null;
+            return false;
+        }
+     
+        selectedPiece = {};
+        selectedPiece.boardPos = boardPos;
+        selectedPiece.obj = board[ boardPos[0] ][ boardPos[1] ];
+        selectedPiece.origPos = selectedPiece.obj.position.clone();
+     
+        return true;
+    }
+
+    /**
+     * Deselects the selected piece.
+     */
+    function deselectPiece() {
+        if (!selectedPiece) {
+            return;
+        }
+     
+        selectedPiece.obj.position = selectedPiece.origPos;
+        selectedPiece.obj.children[0].position.y = 0;
+     
+        selectedPiece = null;
+	}
+	console.log("lel")
 };
 
