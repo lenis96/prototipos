@@ -65,7 +65,15 @@ var Game=function(message){
     this.mouseUp=function(){
         if(this.isSelectedToken){
             this.isSelectedToken=false;
-            this.selectedToken.setNotSelected();
+            for(var i=0;i<this.tokens.length;i++){
+                console.log(this.selectedToken.collide(this.tokens[i]));
+                if(this.tokens[i]!==this.selectedToken && this.selectedToken.collide(this.tokens[i])){
+                    this.selectedToken.setNotSelected(true);
+                    i=this.tokens.length;
+                }
+            }
+            this.selectedToken.setNotSelected(false);
+
             this.selectedToken=null;
         }
     }

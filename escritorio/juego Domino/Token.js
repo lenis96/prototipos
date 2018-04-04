@@ -42,14 +42,43 @@ var Token=function(x,y,imagePath,ctx){
         }
         return res;
     }
-    this.setNotSelected=function(){
+    this.setNotSelected=function(moveToOld){
         this.hold=false;
-        if(true){
+        if(moveToOld){
             this.x=this.oldPos.x;
             this.y=this.oldPos.y;
         }
-        else{
-
+        
+    }
+    this.isIn=function(){
+        if(this.x<350 && this.x>=10 && this.y<=450 && this.y>=10){
+            return true;
         }
+        else{
+            return false;
+        }
+    }
+    this.toGrid=function(){
+        this.x=this.x-(this.x%20);
+        this.y=this.y-(this.y%20);
+        this.oldPos.x=this.x;
+        this.oldPos.y=this.y;
+    }
+    this.collide=function(token){
+        var width=40;height=80;
+        console.log(Math.abs(token.x-this.x));
+        console.log(Math.abs(token.y-this.y));
+        if(Math.abs(token.x-this.x)<width){
+            if(Math.abs(token.y-this.y)<height){
+                res=true;
+            }
+            else{
+                res=false;
+            }
+        }
+        else{
+            res=false;
+        }
+        return res;
     }
 }
