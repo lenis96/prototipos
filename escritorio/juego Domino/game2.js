@@ -38,10 +38,23 @@ var Game=function(message){
     this.isSelectedToken=false;
     this.selectedToken=null;
     this.tokens=[];
+    this.turn=0;
     this.canvas=document.getElementById("gameArea");
     var ctx=this.canvas.getContext("2d");
-    this.tokens.push(new Token(50,410,"images/token1.png",ctx));
-    this.tokens.push(new Token(100,410,"images/token1.png",ctx));
+    this.tokensPlayer1=[];
+    this.tokensPlayer2=[];
+    this.tokensPlayer1.push(new Token(-100,-100,"images/token1.png",ctx));
+    this.tokensPlayer1.push(new Token(-100,-100,"images/token1.png",ctx));
+    this.tokensPlayer2.push(new Token(-100,-100,"images/token1.png",ctx));
+    this.tokensPlayer2.push(new Token(-100,-100,"images/token1.png",ctx));
+    for(var i=0;i<this.tokensPlayer1.length;i++){
+        this.tokensPlayer1[i].x=(50*i)+50;
+        this.tokensPlayer1[i].y=410;
+    }
+    for(var i=0;i<this.tokensPlayer2.length;i++){
+        this.tokensPlayer2[i].x=-100;
+        this.tokensPlayer2[i].y=-100;
+    }
     var obj=this;
     this.draw();
     this.updateGame=function(){
@@ -51,20 +64,50 @@ var Game=function(message){
         for(var i=0;i<obj.tokens.length;i++){
             obj.tokens[i].update();
         }
+        for(var i=0;i<obj.tokensPlayer1.length;i++){
+            obj.tokensPlayer1[i].update();
+        }
+        for(var i=0;i<obj.tokensPlayer2.length;i++){
+            obj.tokensPlayer2[i].update();
+        }
     }
     this.mouseDown=function(){
         var i=0;
-        while(i<this.tokens.length && !this.selectedToken){
-            if(this.tokens[i].clicked()){
-                this.isSelectedToken=true;
-                this.selectedToken=this.tokens[i];
+        if(this.turn==0){
+            while(i<this.tokensPlayer1.length && !this.selectedToken){
+                if(this.tokensPlayer1[i].clicked()){
+                    this.isSelectedToken=true;
+                    this.positionToken=i;
+                    this.selectedToken=this.tokensPlayer1[i];
+                }
+                i++;
+            }    
+        }
+        else{
+            while(i<this.tokensPlayer2.length && !this.selectedToken){
+                if(this.tokensPlayer2[i].clicked()){
+                    this.isSelectedToken=true;
+                    this.positionToken=i;
+                    this.selectedToken=this.tokensPlayer2[i];
+                }
+                i++;
             }
-            i++;
         }
     }
     this.mouseUp=function(){
         if(this.isSelectedToken){
             this.isSelectedToken=false;
+            if(this.selectedToken.isIn()){
+                if(this.turn==0){
+                    this.tokens.push(this.tokensPlayer1[this.positionToken]);
+                    this.tokensPlayer1.splice(this.positionToken,1);
+                }
+                else{
+                    this.tokens.push(this.tokensPlayer2[this.positionToken]);
+                    this.tokensPlayer2.splice(this.positionToken,1);
+                }
+                this.changeTurn();
+            }
             for(var i=0;i<this.tokens.length;i++){
                 console.log(this.selectedToken.collide(this.tokens[i]));
                 if(this.tokens[i]!==this.selectedToken && this.selectedToken.collide(this.tokens[i])){
@@ -76,6 +119,33 @@ var Game=function(message){
 
             this.selectedToken=null;
         }
+        console.log(this.turn);
+    }
+    this.changeTurn=function(){
+        if(this.turn==1){
+            for(var i=0;i<this.tokensPlayer1.length;i++){
+                this.tokensPlayer1[i].x=(50*i)+50;
+                this.tokensPlayer1[i].y=410;
+            }
+            for(var i=0;i<this.tokensPlayer2.length;i++){
+                this.tokensPlayer2[i].x=-100;
+                this.tokensPlayer2[i].y=-100;
+            }
+            this.turn=1-this.turn;
+        }
+        else{
+            for(var i=0;i<this.tokensPlayer2.length;i++){
+                this.tokensPlayer2[i].x=(50*i)+50;
+                this.tokensPlayer2[i].y=410;
+            }
+            for(var i=0;i<this.tokensPlayer1.length;i++){
+                this.tokensPlayer1[i].x=-100;
+                this.tokensPlayer1[i].y=-100;
+            }
+            this.turn=1-this.turn;
+        }
+        this.updateGame();
+        
     }
 }
 var game=new Game();
@@ -85,3 +155,5 @@ gameArea.addEventListener("mousedown",function(event){mousePos={x:event.offsetX,
 gameArea.addEventListener("mouseup",function(){game.mouseUp()});
 
 gameArea.addEventListener("mousemove",function(){mousePos={x:event.offsetX,y:event.offsetY};game.updateGame()});
+
+console.log("termino");
