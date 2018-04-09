@@ -1,4 +1,4 @@
-var Token=function(x,y,imagePath,ctx){
+var Token=function(x,y,imagePath,ctx,fig1="",fig2=""){
     this.x=x;
     this.y=y;
     this.imagePath=imagePath;
@@ -10,6 +10,9 @@ var Token=function(x,y,imagePath,ctx){
     this.offsetX=0;
     this.offsetY=0;
     this.oldPos={x:this.x,y:this.y};
+    this.orientation=0;
+    this.fig1=fig1;
+    this.fig2=fig2;
     
     this.image.onload=function(){
         obj.update();
@@ -80,5 +83,15 @@ var Token=function(x,y,imagePath,ctx){
             res=false;
         }
         return res;
+    }
+    this.posToToken=function(token){
+        if(this.y<token.y){
+            this.y=token.y-80;
+            this.x=token.x;
+        }
+        else{
+            this.y=token.y+80;
+            this.x=token.x;
+        }
     }
 }

@@ -111,8 +111,12 @@ var Game=function(message){
             for(var i=0;i<this.tokens.length;i++){
                 console.log(this.selectedToken.collide(this.tokens[i]));
                 if(this.tokens[i]!==this.selectedToken && this.selectedToken.collide(this.tokens[i])){
-                    this.selectedToken.setNotSelected(true);
-                    i=this.tokens.length;
+                    if(true){//la pieza coincide en figura
+                        this.selectedToken.posToToken(this.tokens[i]);
+                        console.log("lel");
+                        i=this.tokens.length;
+                    }
+                    // this.selectedToken.setNotSelected(true);
                 }
             }
             this.selectedToken.setNotSelected(false);
