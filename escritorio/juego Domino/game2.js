@@ -43,10 +43,10 @@ var Game=function(message){
     var ctx=this.canvas.getContext("2d");
     this.tokensPlayer1=[];
     this.tokensPlayer2=[];
-    this.tokensPlayer1.push(new Token(-100,-100,"images/token1.png",ctx));
-    this.tokensPlayer1.push(new Token(-100,-100,"images/token1.png",ctx));
-    this.tokensPlayer2.push(new Token(-100,-100,"images/token1.png",ctx));
-    this.tokensPlayer2.push(new Token(-100,-100,"images/token1.png",ctx));
+    this.tokensPlayer1.push(new Token(-100,-100,["images/token1-0.png",null,"images/token1-2.png",null],ctx,"lobo","gato"));
+    this.tokensPlayer1.push(new Token(-100,-100,["images/token1-0.png",null,"images/token1-2.png",null],ctx));
+    this.tokensPlayer2.push(new Token(-100,-100,["images/token1-0.png",null,"images/token1-2.png",null],ctx,"lobo","gato"));
+    this.tokensPlayer2.push(new Token(-100,-100,["images/token1-0.png",null,"images/token1-2.png",null],ctx));
     for(var i=0;i<this.tokensPlayer1.length;i++){
         this.tokensPlayer1[i].x=(50*i)+50;
         this.tokensPlayer1[i].y=410;
@@ -111,7 +111,7 @@ var Game=function(message){
             for(var i=0;i<this.tokens.length;i++){
                 console.log(this.selectedToken.collide(this.tokens[i]));
                 if(this.tokens[i]!==this.selectedToken && this.selectedToken.collide(this.tokens[i])){
-                    if(true){//la pieza coincide en figura
+                    if(this.selectedToken.matchedFigures(this.tokens[i])){
                         this.selectedToken.posToToken(this.tokens[i]);
                         console.log("lel");
                         i=this.tokens.length;

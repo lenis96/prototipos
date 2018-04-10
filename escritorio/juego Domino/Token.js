@@ -3,8 +3,16 @@ var Token=function(x,y,imagePath,ctx,fig1="",fig2=""){
     this.y=y;
     this.imagePath=imagePath;
     this.hold=false;
-    this.image=new Image();
-    this.image.src=this.imagePath;
+    this.image=[];
+    for(var i=0;i<4;i++){
+        this.image[i]=new Image();
+        this.image[i].src=this.imagePath[i];
+        this.image[i].onload=function(){
+            obj.update();
+            obj.width=40;
+            obj.height=80;
+        }
+    }
     this.ctx=ctx;
     var obj=this;
     this.offsetX=0;
@@ -14,18 +22,17 @@ var Token=function(x,y,imagePath,ctx,fig1="",fig2=""){
     this.fig1=fig1;
     this.fig2=fig2;
     
-    this.image.onload=function(){
-        obj.update();
-        obj.width=40;
-        obj.height=80;
-    }
 
     this.update=function(){
         if(this.hold){
             this.x=mousePos.x-this.offsetX;
             this.y=mousePos.y-this.offsetY;
+        }
+        if(this.orientation==0){
         }  
-        this.ctx.drawImage(this.image,this.x,this.y,this.width,this.height);
+        else if(this.orientation==2){
+        }
+        this.ctx.drawImage(this.image[this.orientation],this.x,this.y,this.width,this.height);
 
     }
     this.clicked=function(){
@@ -85,13 +92,29 @@ var Token=function(x,y,imagePath,ctx,fig1="",fig2=""){
         return res;
     }
     this.posToToken=function(token){
-        if(this.y<token.y){
-            this.y=token.y-80;
-            this.x=token.x;
+        // if(this.y<token.y){
+        //     this.y=token.y-80;
+        //     this.x=token.x;
+        // }
+        // else{
+        //     this.y=token.y+80;
+        //     this.x=token.x;
+        // }
+        if(this.fig1==token.fig1){
+            this.fig1=token.fig1=null;
+            if(this.orientation=0);
+            console.log("aqui");
+                token.orientation=2;
+                token.y=this.y-80;
+                token.x=this.x;
         }
-        else{
-            this.y=token.y+80;
-            this.x=token.x;
-        }
+    }
+    this.matchedFigures=function(token){
+        var res=false;
+        if(this.fig1==token.fig1 && this.fig1!=null){res=true;}
+        else if(this.fig1==token.fig2 && this.fig1!=null){res=true;}
+        else if(this.fig2==token.fig1 && this.fig2!=null){res=true;}
+        else if(this.fig2==token.fig2 && this.fig2!=null){res=true;}
+        return res;
     }
 }
