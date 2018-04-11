@@ -43,10 +43,10 @@ var Game=function(message){
     var ctx=this.canvas.getContext("2d");
     this.tokensPlayer1=[];
     this.tokensPlayer2=[];
-    this.tokensPlayer1.push(new Token(-100,-100,["images/token1-0.png",null,"images/token1-2.png",null],ctx,"lobo","gato"));
-    this.tokensPlayer1.push(new Token(-100,-100,["images/token1-0.png",null,"images/token1-2.png",null],ctx));
-    this.tokensPlayer2.push(new Token(-100,-100,["images/token1-0.png",null,"images/token1-2.png",null],ctx,"lobo","gato"));
-    this.tokensPlayer2.push(new Token(-100,-100,["images/token1-0.png",null,"images/token1-2.png",null],ctx));
+    this.tokensPlayer1.push(new Token(-100,-100,["images/token1-0.png","images/token1-1.png","images/token1-2.png","images/token1-3.png"],ctx,"lobo","gato"));
+    this.tokensPlayer1.push(new Token(-100,-100,["images/token1-0.png","images/token1-1.png","images/token1-2.png","images/token1-3.png"],ctx));
+    this.tokensPlayer2.push(new Token(-100,-100,["images/token1-0.png","images/token1-1.png","images/token1-2.png","images/token1-3.png"],ctx,"lobo","gato"));
+    this.tokensPlayer2.push(new Token(-100,-100,["images/token1-0.png","images/token1-1.png","images/token1-2.png","images/token1-3.png"],ctx));
     for(var i=0;i<this.tokensPlayer1.length;i++){
         this.tokensPlayer1[i].x=(50*i)+50;
         this.tokensPlayer1[i].y=410;
@@ -112,7 +112,7 @@ var Game=function(message){
                 console.log(this.selectedToken.collide(this.tokens[i]));
                 if(this.tokens[i]!==this.selectedToken && this.selectedToken.collide(this.tokens[i])){
                     if(this.selectedToken.matchedFigures(this.tokens[i])){
-                        this.selectedToken.posToToken(this.tokens[i]);
+                        this.tokens[i].posToToken(this.selectedToken);
                         console.log("lel");
                         i=this.tokens.length;
                     }

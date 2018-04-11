@@ -4,7 +4,21 @@ var Token=function(x,y,imagePath,ctx,fig1="",fig2=""){
     this.imagePath=imagePath;
     this.hold=false;
     this.image=[];
-    for(var i=0;i<4;i++){
+    this.width=40;
+    this.height=80;
+    // this.width=[40,80,40,80];
+    // this.height=[80,40,80,40];
+    for(var i=0;i<4;i+=2){
+        this.image[i]=new Image();
+        this.image[i].src=this.imagePath[i];
+        this.image[i].onload=function(){
+            obj.update();
+            obj.width=80;
+            obj.height=40;
+        }
+        console.log("0=");
+    }
+    for(var i=1;i<4;i+=2){
         this.image[i]=new Image();
         this.image[i].src=this.imagePath[i];
         this.image[i].onload=function(){
@@ -12,6 +26,7 @@ var Token=function(x,y,imagePath,ctx,fig1="",fig2=""){
             obj.width=40;
             obj.height=80;
         }
+        console.log("1=");
     }
     this.ctx=ctx;
     var obj=this;
@@ -22,17 +37,23 @@ var Token=function(x,y,imagePath,ctx,fig1="",fig2=""){
     this.fig1=fig1;
     this.fig2=fig2;
     
-
     this.update=function(){
         if(this.hold){
             this.x=mousePos.x-this.offsetX;
             this.y=mousePos.y-this.offsetY;
         }
-        if(this.orientation==0){
+        if(this.orientation==0 || this.orientation==2){
+            var width=40;
+            var height=80;
         }  
-        else if(this.orientation==2){
+        else if(this.orientation==1 || this.orientation==3){
+            var width=80;
+            var height=40;
         }
-        this.ctx.drawImage(this.image[this.orientation],this.x,this.y,this.width,this.height);
+        console.log(this.orientation);
+        this.ctx.drawImage(this.image[this.orientation],this.x,this.y,width,height);
+        // console.log(this.width[this.orientation]);
+        // cons
 
     }
     this.clicked=function(){
@@ -102,11 +123,75 @@ var Token=function(x,y,imagePath,ctx,fig1="",fig2=""){
         // }
         if(this.fig1==token.fig1){
             this.fig1=token.fig1=null;
-            if(this.orientation=0);
-            console.log("aqui");
-                token.orientation=2;
-                token.y=this.y-80;
-                token.x=this.x;
+            if(this.orientation==0){
+                if(token.x<this.x-20){
+                    if(token.y<this.y+20){
+                        token.orientation=3;
+                        token.y=this.y-40;
+                        token.x=this.x;
+                    }
+                    else{
+                        token.orientation=3;
+                        token.y=this.y;
+                        token.x=this.x+40
+                    }
+                }
+                else if(token.x>this.x+20){
+                    if(token.y<this.y+20){
+                        token.orientation=1;
+                        token.y=this.y-40;
+                        token.x=this.x-40;
+                    }
+                    else{
+                        token.orientation=1;
+                        token.y=this.y;
+                        token.x=this.x-80;
+                    }
+                }
+                else{
+                    token.orientation=2;
+                    token.y=this.y-80;
+                    token.x=this.x;
+                }
+                // console.log("y: "+this.y);
+                // if(this.y>=80){
+                //     if(this.x>=80){
+
+                //     }
+                //     else if(this.x>=40){
+
+                //     }
+                //     else{
+                //         if(this.x>=0){
+                            
+                //         }
+                //     }
+                //     token.orientation=2;
+                //     token.y=this.y-80;
+                //     token.x=this.x;
+                // }
+                // else if(this.y>=40){
+                //     if(this.x<widthCanvas-this.width){
+                //         console.log(">>>>>>>>>>>>>>>>>>");
+                //         token.orientation=1;
+                //         token.y=this.y-40;
+                //         token.x=this.x;
+                //     }
+                //     else if(this.x>80){
+                //         console.log("<<<<<<<<<<<<<<<<<<<<");
+                //         token.orientation=3;
+                //         token.y=this.y-40;
+                //         token.x=this.x;
+                //     }
+                //     else{
+                //         console.log("++++++++++");
+                //     }
+                // }
+                // else{
+                //     console.log("_-------------------------");
+                // }
+            }
+            
         }
     }
     this.matchedFigures=function(token){
