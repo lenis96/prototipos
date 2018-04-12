@@ -206,6 +206,36 @@ var Game=function(message){
         this.updateGame();
         
     }
+    document.onkeydown = checkKey;
+
+    function checkKey(e) {
+
+        e = e || window.event;
+
+        if (e.keyCode == '38') {
+            // up arrow
+        }
+        else if (e.keyCode == '40') {
+            // down arrow
+        }
+        else if (e.keyCode == '37') {
+            console.log(obj.selectedToken);
+            if(obj.selectedToken!=null){
+                obj.selectedToken.leftRotate();
+            }
+            obj.updateGame();
+        console.log("L")
+        }
+        else if (e.keyCode == '39') {
+            console.log(obj.selectedToken);
+            if(obj.selectedToken!=null){
+                obj.selectedToken.rightRotate();
+            }
+            obj.updateGame();  
+        console.log("R")
+        }
+
+    }
 }
 var game=new Game();
 
@@ -214,5 +244,6 @@ gameArea.addEventListener("mousedown",function(event){mousePos={x:event.offsetX,
 gameArea.addEventListener("mouseup",function(){game.mouseUp()});
 
 gameArea.addEventListener("mousemove",function(){mousePos={x:event.offsetX,y:event.offsetY};game.updateGame()});
+
 
 console.log("termino");

@@ -222,20 +222,49 @@ var Token=function(x,y,imagePath,ctx,fig1="",fig2=""){
     this.isMatched=function(tokens){
         console.log(tokens[0].fig)
         console.log(this.fig1)
-        if(tokens[0].fig==this.fig1 && this.isNear(tokens[0])){
+        if(tokens[0].fig==this.fig1 && this.isNear(1,tokens[0])){
             return {res:true,token:0,fig:1};
+        }
+        else if(tokens[0].fig==this.fig2 && this.isNear(2,tokens[0])){
+            return {res:true,token:0,fig:2};
+        }
+        else if(tokens[1].fig==this.fig1 && this.isNear(1,tokens[1])){
+            return {res:true,token:1,fig:1};
+        }
+        else if(tokens[1].fig==this.fig2 && this.isNear(2,tokens[1])){
+            return {res:true,token:1,fig:2};
         }
         else{
             return {res:false};
         }
     }
-    this.isNear=function(token){
-        console.log("entro")
-        if((this.fig1X-token.x)**2+(this.fig1Y-token.y)**2<=45**2){
-            return true;
+    this.isNear=function(fig,token){
+        if(fig==1){
+            if((this.fig1X-token.x)**2+(this.fig1Y-token.y)**2<=45**2){
+                return true;
+            }
+            else{
+                return false;
+            }
         }
-        else{
-            return false;
+        else if(fig=2){
+            if((this.fig2X-token.x)**2+(this.fig2Y-token.y)**2<=45**2){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+    }
+    this.rightRotate=function(){
+        this.orientation++;
+        this.orientation=this.orientation%4;
+    }
+    this.leftRotate=function(){
+        this.orientation--;
+        this.orientation=this.orientation%4;
+        if(this.orientation<0){
+            this.orientation=3;
         }
     }
 }
