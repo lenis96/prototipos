@@ -38,6 +38,7 @@ var Game=function(message){
     this.isSelectedToken=false;
     this.selectedToken=null;
     this.tokens=[];
+    this.putTokens=[];
     this.turn=0;
     this.canvas=document.getElementById("gameArea");
     var ctx=this.canvas.getContext("2d");
@@ -61,8 +62,8 @@ var Game=function(message){
         var ctx=obj.canvas.getContext("2d");
         ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.draw();
-        for(var i=0;i<obj.tokens.length;i++){
-            obj.tokens[i].update();
+        for(var i=0;i<obj.putTokens.length;i++){
+            obj.putTokens[i].update();
         }
         for(var i=0;i<obj.tokensPlayer1.length;i++){
             obj.tokensPlayer1[i].update();
@@ -95,30 +96,80 @@ var Game=function(message){
         }
     }
     this.mouseUp=function(){
+        var putToken=false;
         if(this.isSelectedToken){
             this.isSelectedToken=false;
-            if(this.selectedToken.isIn()){
-                if(this.turn==0){
-                    this.tokens.push(this.tokensPlayer1[this.positionToken]);
-                    this.tokensPlayer1.splice(this.positionToken,1);
+            // console.log(this.tokens)
+            if(this.tokens.length>0){
+                var res=this.selectedToken.isMatched(this.tokens);
+                console.log(res)
+                if(res.res){
+                    if(this.turn==0){
+                        this.putTokens.push(this.tokensPlayer1[this.positionToken]);
+                        this.tokensPlayer1.splice(this.positionToken,1);
+                    }
+                    else if(this.turn==1){
+                        this.putTokens.push(this.tokensPlayer2[this.positionToken]);
+                        this.tokensPlayer2.splice(this.positionToken,1);
+                    }
+                    this.changeTurn();
+                    if(res.token==0){
+                        if(res.fig==1){
+                            this.tokens[0]={fig:this.selectedToken.fig1,x:this.selectedToken.fig1X,y:this.selectedToken.fig1Y};
+                            putToken=true;
+                            
+                        }
+                        else if(res.fig==2){
+                            this.tokens[0]={fig:this.selectedToken.fig2,x:this.selectedToken.fig2X,y:this.selectedToken.fig2Y};
+                            putToken=true;
+                        }
+                    }
+                    else if(res.token==1){
+                        if(res.fig==1){
+                            this.tokens[1]={fig:this.selectedToken.fig1,x:this.selectedToken.fig1X,y:this.selectedToken.fig1Y};
+                            putToken=true;
+                        }
+                        else if(res.fig==2){
+                            this.tokens[1]={fig:this.selectedToken.fig2,x:this.selectedToken.fig2X,y:this.selectedToken.fig2Y};
+                            putToken=true;
+                        }
+                    }
                 }
-                else{
-                    this.tokens.push(this.tokensPlayer2[this.positionToken]);
-                    this.tokensPlayer2.splice(this.positionToken,1);
-                }
+            }
+            else{
+                this.tokens[0]={fig:this.selectedToken.fig1,x:this.selectedToken.fig1X,y:this.selectedToken.fig1Y};
+                this.tokens[1]={fig:this.selectedToken.fig2,x:this.selectedToken.fig2X,y:this.selectedToken.fig2Y};
+                this.putTokens.push(this.tokensPlayer1[this.positionToken]);
+                this.tokensPlayer1.splice(this.positionToken,1);
+                putToken=true;
                 this.changeTurn();
             }
-            for(var i=0;i<this.tokens.length;i++){
-                console.log(this.selectedToken.collide(this.tokens[i]));
-                if(this.tokens[i]!==this.selectedToken && this.selectedToken.collide(this.tokens[i])){
-                    if(this.selectedToken.matchedFigures(this.tokens[i])){
-                        this.tokens[i].posToToken(this.selectedToken);
-                        console.log("lel");
-                        i=this.tokens.length;
-                    }
-                    // this.selectedToken.setNotSelected(true);
-                }
+            if(!putToken){
+                console.log(this.tokensPlayer2)
+                this.selectedToken.setNotSelected(true);
             }
+            // if(this.selectedToken.isIn()){
+            //     if(this.turn==0){
+            //         this.tokens.push(this.tokensPlayer1[this.positionToken]);
+            //         this.tokensPlayer1.splice(this.positionToken,1);
+            //     }
+            //     else{
+            //         this.tokens.push(this.tokensPlayer2[this.positionToken]);
+            //         this.tokensPlayer2.splice(this.positionToken,1);
+            //     }
+            //     this.changeTurn();
+            // }
+            // for(var i=0;i<this.tokens.length;i++){
+            //     console.log(this.selectedToken.collide(this.tokens[i]));
+            //     if(this.tokens[i]!==this.selectedToken && this.selectedToken.collide(this.tokens[i])){
+            //         if(this.selectedToken.matchedFigures(this.tokens[i])){
+            //             this.tokens[i].posToToken(this.selectedToken);
+            //             console.log("lel");
+            //             i=this.tokens.length;
+            //         }
+            //         // this.selectedToken.setNotSelected(true);
+            //     }
+            // }
             this.selectedToken.setNotSelected(false);
 
             this.selectedToken=null;
@@ -130,10 +181,12 @@ var Game=function(message){
             for(var i=0;i<this.tokensPlayer1.length;i++){
                 this.tokensPlayer1[i].x=(50*i)+50;
                 this.tokensPlayer1[i].y=410;
+                this.tokensPlayer1[i].setOldPos();
             }
             for(var i=0;i<this.tokensPlayer2.length;i++){
                 this.tokensPlayer2[i].x=-100;
                 this.tokensPlayer2[i].y=-100;
+                this.tokensPlayer2[i].setOldPos();
             }
             this.turn=1-this.turn;
         }
@@ -141,10 +194,12 @@ var Game=function(message){
             for(var i=0;i<this.tokensPlayer2.length;i++){
                 this.tokensPlayer2[i].x=(50*i)+50;
                 this.tokensPlayer2[i].y=410;
+                this.tokensPlayer2[i].setOldPos();
             }
             for(var i=0;i<this.tokensPlayer1.length;i++){
                 this.tokensPlayer1[i].x=-100;
                 this.tokensPlayer1[i].y=-100;
+                this.tokensPlayer1[i].setOldPos();
             }
             this.turn=1-this.turn;
         }

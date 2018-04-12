@@ -16,7 +16,6 @@ var Token=function(x,y,imagePath,ctx,fig1="",fig2=""){
             obj.width=80;
             obj.height=40;
         }
-        console.log("0=");
     }
     for(var i=1;i<4;i+=2){
         this.image[i]=new Image();
@@ -26,7 +25,6 @@ var Token=function(x,y,imagePath,ctx,fig1="",fig2=""){
             obj.width=40;
             obj.height=80;
         }
-        console.log("1=");
     }
     this.ctx=ctx;
     var obj=this;
@@ -50,10 +48,27 @@ var Token=function(x,y,imagePath,ctx,fig1="",fig2=""){
             var width=80;
             var height=40;
         }
-        console.log(this.orientation);
+        if(this.orientation==0){
+            this.fig1X=this.fig2X=this.x+20;
+            this.fig1Y=this.y+20;
+            this.fig2Y=this.y+60;
+        }
+        if(this.orientation==1){
+            this.fig1Y=this.fig2Y=this.y+20;
+            this.fig1X=this.x+60;
+            this.fig2X=this.y+20;
+        }
+        else if(this.orientation==2){
+            this.fig1X=this.fig2X=this.x+20;
+            this.fig2Y=this.y+20;
+            this.fig1Y=this.y+60;
+        }
+        if(this.orientation==3){
+            this.fig1Y=this.fig2Y=this.y+20;
+            this.fig1X=this.x+20;
+            this.fig2X=this.y+60;
+        }
         this.ctx.drawImage(this.image[this.orientation],this.x,this.y,width,height);
-        // console.log(this.width[this.orientation]);
-        // cons
 
     }
     this.clicked=function(){
@@ -81,6 +96,10 @@ var Token=function(x,y,imagePath,ctx,fig1="",fig2=""){
         }
         
     }
+    this.setOldPos=function(){
+        this.oldPos.x=this.x;
+        this.oldPos.y=this.y;
+    }
     this.isIn=function(){
         if(this.x<350 && this.x>=10 && this.y<=450 && this.y>=10){
             return true;
@@ -97,8 +116,6 @@ var Token=function(x,y,imagePath,ctx,fig1="",fig2=""){
     }
     this.collide=function(token){
         var width=40;height=80;
-        console.log(Math.abs(token.x-this.x));
-        console.log(Math.abs(token.y-this.y));
         if(Math.abs(token.x-this.x)<width){
             if(Math.abs(token.y-this.y)<height){
                 res=true;
@@ -112,88 +129,88 @@ var Token=function(x,y,imagePath,ctx,fig1="",fig2=""){
         }
         return res;
     }
-    this.posToToken=function(token){
-        // if(this.y<token.y){
-        //     this.y=token.y-80;
-        //     this.x=token.x;
-        // }
-        // else{
-        //     this.y=token.y+80;
-        //     this.x=token.x;
-        // }
-        if(this.fig1==token.fig1){
-            this.fig1=token.fig1=null;
-            if(this.orientation==0){
-                if(token.x<this.x-20){
-                    if(token.y<this.y+20){
-                        token.orientation=3;
-                        token.y=this.y-40;
-                        token.x=this.x-40;
-                    }
-                    else{
-                        token.orientation=3;
-                        token.y=this.y;
-                        token.x=this.x-80
-                    }
-                }
-                else if(token.x>this.x+20){
-                    if(token.y<this.y+20){
-                        token.orientation=1;
-                        token.y=this.y-40;
-                        token.x=this.x;
-                    }
-                    else{
-                        token.orientation=1;
-                        token.y=this.y;
-                        token.x=this.x+40;
-                    }
-                }
-                else{
-                    token.orientation=2;
-                    token.y=this.y-80;
-                    token.x=this.x;
-                }
-                // console.log("y: "+this.y);
-                // if(this.y>=80){
-                //     if(this.x>=80){
+    // this.posToToken=function(token){
+    //     // if(this.y<token.y){
+    //     //     this.y=token.y-80;
+    //     //     this.x=token.x;
+    //     // }
+    //     // else{
+    //     //     this.y=token.y+80;
+    //     //     this.x=token.x;
+    //     // }
+    //     if(this.fig1==token.fig1){
+    //         this.fig1=token.fig1=null;
+    //         if(this.orientation==0){
+    //             if(token.x<this.x-20){
+    //                 if(token.y<this.y+20){
+    //                     token.orientation=3;
+    //                     token.y=this.y-40;
+    //                     token.x=this.x-40;
+    //                 }
+    //                 else{
+    //                     token.orientation=3;
+    //                     token.y=this.y;
+    //                     token.x=this.x-80
+    //                 }
+    //             }
+    //             else if(token.x>this.x+20){
+    //                 if(token.y<this.y+20){
+    //                     token.orientation=1;
+    //                     token.y=this.y-40;
+    //                     token.x=this.x;
+    //                 }
+    //                 else{
+    //                     token.orientation=1;
+    //                     token.y=this.y;
+    //                     token.x=this.x+40;
+    //                 }
+    //             }
+    //             else{
+    //                 token.orientation=2;
+    //                 token.y=this.y-80;
+    //                 token.x=this.x;
+    //             }
+    //             // console.log("y: "+this.y);
+    //             // if(this.y>=80){
+    //             //     if(this.x>=80){
 
-                //     }
-                //     else if(this.x>=40){
+    //             //     }
+    //             //     else if(this.x>=40){
 
-                //     }
-                //     else{
-                //         if(this.x>=0){
+    //             //     }
+    //             //     else{
+    //             //         if(this.x>=0){
                             
-                //         }
-                //     }
-                //     token.orientation=2;
-                //     token.y=this.y-80;
-                //     token.x=this.x;
-                // }
-                // else if(this.y>=40){
-                //     if(this.x<widthCanvas-this.width){
-                //         console.log(">>>>>>>>>>>>>>>>>>");
-                //         token.orientation=1;
-                //         token.y=this.y-40;
-                //         token.x=this.x;
-                //     }
-                //     else if(this.x>80){
-                //         console.log("<<<<<<<<<<<<<<<<<<<<");
-                //         token.orientation=3;
-                //         token.y=this.y-40;
-                //         token.x=this.x;
-                //     }
-                //     else{
-                //         console.log("++++++++++");
-                //     }
-                // }
-                // else{
-                //     console.log("_-------------------------");
-                // }
-            }
+    //             //         }
+    //             //     }
+    //             //     token.orientation=2;
+    //             //     token.y=this.y-80;
+    //             //     token.x=this.x;
+    //             // }
+    //             // else if(this.y>=40){
+    //             //     if(this.x<widthCanvas-this.width){
+    //             //         console.log(">>>>>>>>>>>>>>>>>>");
+    //             //         token.orientation=1;
+    //             //         token.y=this.y-40;
+    //             //         token.x=this.x;
+    //             //     }
+    //             //     else if(this.x>80){
+    //             //         console.log("<<<<<<<<<<<<<<<<<<<<");
+    //             //         token.orientation=3;
+    //             //         token.y=this.y-40;
+    //             //         token.x=this.x;
+    //             //     }
+    //             //     else{
+    //             //         console.log("++++++++++");
+    //             //     }
+    //             // }
+    //             // else{
+    //             //     console.log("_-------------------------");
+    //             // }
+    //         }
             
-        }
-    }
+    //     }
+    // }
     this.matchedFigures=function(token){
         var res=false;
         if(this.fig1==token.fig1 && this.fig1!=null){res=true;}
@@ -201,5 +218,24 @@ var Token=function(x,y,imagePath,ctx,fig1="",fig2=""){
         else if(this.fig2==token.fig1 && this.fig2!=null){res=true;}
         else if(this.fig2==token.fig2 && this.fig2!=null){res=true;}
         return res;
+    }
+    this.isMatched=function(tokens){
+        console.log(tokens[0].fig)
+        console.log(this.fig1)
+        if(tokens[0].fig==this.fig1 && this.isNear(tokens[0])){
+            return {res:true,token:0,fig:1};
+        }
+        else{
+            return {res:false};
+        }
+    }
+    this.isNear=function(token){
+        console.log("entro")
+        if((this.fig1X-token.x)**2+(this.fig1Y-token.y)**2<=45**2){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }
