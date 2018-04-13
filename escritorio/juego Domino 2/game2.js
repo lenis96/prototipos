@@ -29,11 +29,6 @@ var Game=function(message){
             y+=dy;
         }
     }
-    this.draw=function(){
-        this.drawGrid();
-        ctx.fillStyle = "#ccc";
-        ctx.fillRect(30, 400,340, 100);
-    }
     
     this.isSelectedToken=false;
     this.selectedToken=null;
@@ -44,6 +39,20 @@ var Game=function(message){
     var ctx=this.canvas.getContext("2d");
     this.tokensPlayer1=[];
     this.tokensPlayer2=[];
+    this.correct=false;
+    this.correctImage=new Image();
+    this.correctImage.src="images/correct.png";
+    var obj=this;
+    this.correctImage.onload=function(){
+        // obj.update();
+        // obj.width=100;
+        // obj.height=100;
+    }
+    this.draw=function(){
+        this.drawGrid();
+        ctx.fillStyle = "#ccc";
+        ctx.fillRect(30, 400,340, 100);
+    }
     this.tokensPlayer1.push(new Token(-100,-100,["images/token1-0.png","images/token1-1.png","images/token1-2.png","images/token1-3.png"],ctx,"lobo","gato"));
     this.tokensPlayer1.push(new Token(-100,-100,["images/token1-0.png","images/token1-1.png","images/token1-2.png","images/token1-3.png"],ctx));
     this.tokensPlayer2.push(new Token(-100,-100,["images/token1-0.png","images/token1-1.png","images/token1-2.png","images/token1-3.png"],ctx,"lobo","gato"));
@@ -70,6 +79,9 @@ var Game=function(message){
         }
         for(var i=0;i<obj.tokensPlayer2.length;i++){
             obj.tokensPlayer2[i].update();
+        }
+        if(this.correct){
+            ctx.drawImage(this.correctImage,100,100,100,100);
         }
     }
     this.mouseDown=function(){
@@ -113,6 +125,7 @@ var Game=function(message){
                         this.tokensPlayer2.splice(this.positionToken,1);
                     }
                     this.changeTurn();
+                    this.showCorrect();
                     if(res.token==0){
                         if(res.fig==1){
                             this.tokens[0]={fig:this.selectedToken.fig1,x:this.selectedToken.fig1X,y:this.selectedToken.fig1Y};
@@ -207,6 +220,16 @@ var Game=function(message){
         
     }
     document.onkeydown = checkKey;
+    // var obj=this;
+    this.showCorrect=function(){
+        this.correct=true;
+        setTimeout(function(){
+            obj.correct=false;
+            obj.updateGame();
+            console.log("termino")
+
+        },1500);
+    }
 
     function checkKey(e) {
 
