@@ -55,7 +55,7 @@ var Game=function(message){
     }
     this.tokensPlayer1.push(new Token(-100,-100,["images/token1-0.png","images/token1-1.png","images/token1-2.png","images/token1-3.png"],ctx,"lobo","gato"));
     this.tokensPlayer1.push(new Token(-100,-100,["images/token1-0.png","images/token1-1.png","images/token1-2.png","images/token1-3.png"],ctx));
-    this.tokensPlayer2.push(new Token(-100,-100,["images/token1-0.png","images/token1-1.png","images/token1-2.png","images/token1-3.png"],ctx,"lobo","gato"));
+    this.tokensPlayer2.push(new Token(-100,-100,["images/token2-0.png","images/token2-1.png","images/token2-2.png","images/token2-3.png"],ctx,"lobo","gato"));
     this.tokensPlayer2.push(new Token(-100,-100,["images/token1-0.png","images/token1-1.png","images/token1-2.png","images/token1-3.png"],ctx));
     for(var i=0;i<this.tokensPlayer1.length;i++){
         this.tokensPlayer1[i].x=(50*i)+50;
