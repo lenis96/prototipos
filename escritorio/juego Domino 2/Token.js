@@ -68,6 +68,7 @@ var Token=function(x,y,imagePath,ctx,fig1="",fig2=""){
             this.fig1X=this.x+20;
             this.fig2X=this.y+60;
         }
+        console.log(this.fig1)
         this.ctx.drawImage(this.image[this.orientation],this.x,this.y,width,height);
 
     }

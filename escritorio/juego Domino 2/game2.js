@@ -53,10 +53,19 @@ var Game=function(message){
         ctx.fillStyle = "#ccc";
         ctx.fillRect(30, 400,340, 100);
     }
-    this.tokensPlayer1.push(new Token(-100,-100,["images/token1-0.png","images/token1-1.png","images/token1-2.png","images/token1-3.png"],ctx,"lobo","gato"));
-    this.tokensPlayer1.push(new Token(-100,-100,["images/token1-0.png","images/token1-1.png","images/token1-2.png","images/token1-3.png"],ctx));
-    this.tokensPlayer2.push(new Token(-100,-100,["images/token2-0.png","images/token2-1.png","images/token2-2.png","images/token2-3.png"],ctx,"lobo","gato"));
-    this.tokensPlayer2.push(new Token(-100,-100,["images/token1-0.png","images/token1-1.png","images/token1-2.png","images/token1-3.png"],ctx));
+    this.tokensPlayer1.push(new Token(-100,-100,["images/token1-0.png","images/token1-1.png","images/token1-2.png","images/token1-3.png"],ctx,"gato","perro"));
+    this.tokensPlayer1.push(new Token(-100,-100,["images/token2-0.png","images/token2-1.png","images/token2-2.png","images/token2-3.png"],ctx,"gato","gallo"));
+    this.tokensPlayer1.push(new Token(-100,-100,["images/token5-0.png","images/token5-1.png","images/token5-2.png","images/token5-3.png"],ctx,"gato","perro"));
+    this.tokensPlayer1.push(new Token(-100,-100,["images/token6-0.png","images/token6-1.png","images/token6-2.png","images/token6-3.png"],ctx,"gato","gallo"));
+    this.tokensPlayer1.push(new Token(-100,-100,["images/token7-0.png","images/token7-1.png","images/token7-2.png","images/token7-3.png"],ctx,"gato","perro"));
+    this.tokensPlayer1.push(new Token(-100,-100,["images/token8-0.png","images/token8-1.png","images/token8-2.png","images/token8-3.png"],ctx,"gato","gallo"));
+    this.tokensPlayer2.push(new Token(-100,-100,["images/token3-0.png","images/token3-1.png","images/token3-2.png","images/token3-3.png"],ctx,"gato","caballo"));
+    this.tokensPlayer2.push(new Token(-100,-100,["images/token4-0.png","images/token4-1.png","images/token4-2.png","images/token4-3.png"],ctx,"gato","conejo"));
+    this.tokensPlayer2.push(new Token(-100,-100,["images/token9-0.png","images/token9-1.png","images/token9-2.png","images/token9-3.png"],ctx,"gato","caballo"));
+    this.tokensPlayer2.push(new Token(-100,-100,["images/token10-0.png","images/token10-1.png","images/token10-2.png","images/token10-3.png"],ctx,"gato","conejo"));
+    this.tokensPlayer2.push(new Token(-100,-100,["images/token11-0.png","images/token11-1.png","images/token11-2.png","images/token11-3.png"],ctx,"gato","caballo"));
+    this.tokensPlayer2.push(new Token(-100,-100,["images/token12-0.png","images/token12-1.png","images/token12-2.png","images/token12-3.png"],ctx,"gato","conejo"));
+    
     for(var i=0;i<this.tokensPlayer1.length;i++){
         this.tokensPlayer1[i].x=(50*i)+50;
         this.tokensPlayer1[i].y=410;
