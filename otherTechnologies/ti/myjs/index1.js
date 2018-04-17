@@ -12,17 +12,37 @@
 
 	// build markerControls
     var markerRoots=[];
-	paths=[THREEx.ArToolkitContext.baseURL + '../data/data/marker0.pat',THREEx.ArToolkitContext.baseURL + '../data/data/marker1.pat',THREEx.ArToolkitContext.baseURL + '../data/data/marker2.pat',THREEx.ArToolkitContext.baseURL + '../data/data/marker3.pat',
-	THREEx.ArToolkitContext.baseURL + '../data/data/marker4.pat',THREEx.ArToolkitContext.baseURL + '../data/data/marker5.pat'];
-	names=["marker0","marker1","marker2","marker3"];
-	shapes=[{shape:"LOBO",blocked:false},
-			{shape:"GATO",blocked:false},
-			{shape:"LOBO",blocked:false},
-			{shape:"PAJARO",blocked:false},
-			{shape:"GATO",blocked:false},
-			{shape:"PAJARP",blocked:false}]
-	objPaths=["p1.obj","p2.obj","p3.obj","p4.obj","p1.obj","p2.obj"];
-	mtlPaths=["p1.mtl","p2.mtl","p3.mtl","p4.mtl","p1.mtl","p2.mtl"];
+	paths=[];
+	names=[];
+	objPaths=[];
+	mtlPaths=[];
+	shapes=[{shape:"cat",blocked:false},
+			{shape:"wolf",blocked:false},
+			{shape:"cat",blocked:false},
+			{shape:"bird",blocked:false},
+			{shape:"cat",blocked:false},
+			{shape:"bear",blocked:false},
+			{shape:"cat",blocked:false},
+			{shape:"jiraf",blocked:false},
+			{shape:"wolf",blocked:false},
+			{shape:"bird",blocked:false},
+			{shape:"wolf",blocked:false},
+			{shape:"bear",blocked:false},
+			{shape:"wolf",blocked:false},
+			{shape:"jiraf",blocked:false},
+			{shape:"bird",blocked:false},
+			{shape:"bear",blocked:false},
+			{shape:"bird",blocked:false},
+			{shape:"jiraf",blocked:false},
+			{shape:"bear",blocked:false},
+			{shape:"jiraf",blocked:false}]
+	
+	for(var i=0;i<20;i++){
+		paths.push(THREEx.ArToolkitContext.baseURL+'../data/data/marker'+i+".pat");
+		names.push("marker"+i);
+		objPaths.push(shapes[i].shape+".obj");
+		mtlPaths.push(shapes[i].shape+".mtl");
+	}
 	for(var i=0;i<paths.length;i++){
 		markerRoot=new THREE.Group;
 		markerRoot.name="marker"+i.toString();
