@@ -56,7 +56,7 @@ var Token=function(x,y,imagePath,ctx,fig1="",fig2=""){
         if(this.orientation==1){
             this.fig1Y=this.fig2Y=this.y+20;
             this.fig1X=this.x+60;
-            this.fig2X=this.y+20;
+            this.fig2X=this.x+20;
         }
         else if(this.orientation==2){
             this.fig1X=this.fig2X=this.x+20;
@@ -66,9 +66,8 @@ var Token=function(x,y,imagePath,ctx,fig1="",fig2=""){
         if(this.orientation==3){
             this.fig1Y=this.fig2Y=this.y+20;
             this.fig1X=this.x+20;
-            this.fig2X=this.y+60;
+            this.fig2X=this.x+60;
         }
-        console.log(this.fig1)
         this.ctx.drawImage(this.image[this.orientation],this.x,this.y,width,height);
 
     }

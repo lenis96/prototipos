@@ -55,16 +55,16 @@ var Game=function(message){
     }
     this.tokensPlayer1.push(new Token(-100,-100,["images/token1-0.png","images/token1-1.png","images/token1-2.png","images/token1-3.png"],ctx,"gato","perro"));
     this.tokensPlayer1.push(new Token(-100,-100,["images/token2-0.png","images/token2-1.png","images/token2-2.png","images/token2-3.png"],ctx,"gato","gallo"));
-    this.tokensPlayer1.push(new Token(-100,-100,["images/token5-0.png","images/token5-1.png","images/token5-2.png","images/token5-3.png"],ctx,"gato","perro"));
-    this.tokensPlayer1.push(new Token(-100,-100,["images/token6-0.png","images/token6-1.png","images/token6-2.png","images/token6-3.png"],ctx,"gato","gallo"));
-    this.tokensPlayer1.push(new Token(-100,-100,["images/token7-0.png","images/token7-1.png","images/token7-2.png","images/token7-3.png"],ctx,"gato","perro"));
-    this.tokensPlayer1.push(new Token(-100,-100,["images/token8-0.png","images/token8-1.png","images/token8-2.png","images/token8-3.png"],ctx,"gato","gallo"));
+    this.tokensPlayer1.push(new Token(-100,-100,["images/token5-0.png","images/token5-1.png","images/token5-2.png","images/token5-3.png"],ctx,"perro","gallo"));
+    this.tokensPlayer1.push(new Token(-100,-100,["images/token6-0.png","images/token6-1.png","images/token6-2.png","images/token6-3.png"],ctx,"perro","vaca"));
+    this.tokensPlayer2.push(new Token(-100,-100,["images/token7-0.png","images/token7-1.png","images/token7-2.png","images/token7-3.png"],ctx,"perro","conejo"));
+    this.tokensPlayer1.push(new Token(-100,-100,["images/token8-0.png","images/token8-1.png","images/token8-2.png","images/token8-3.png"],ctx,"gallo","vaca"));
     this.tokensPlayer2.push(new Token(-100,-100,["images/token3-0.png","images/token3-1.png","images/token3-2.png","images/token3-3.png"],ctx,"gato","caballo"));
     this.tokensPlayer2.push(new Token(-100,-100,["images/token4-0.png","images/token4-1.png","images/token4-2.png","images/token4-3.png"],ctx,"gato","conejo"));
-    this.tokensPlayer2.push(new Token(-100,-100,["images/token9-0.png","images/token9-1.png","images/token9-2.png","images/token9-3.png"],ctx,"gato","caballo"));
-    this.tokensPlayer2.push(new Token(-100,-100,["images/token10-0.png","images/token10-1.png","images/token10-2.png","images/token10-3.png"],ctx,"gato","conejo"));
-    this.tokensPlayer2.push(new Token(-100,-100,["images/token11-0.png","images/token11-1.png","images/token11-2.png","images/token11-3.png"],ctx,"gato","caballo"));
-    this.tokensPlayer2.push(new Token(-100,-100,["images/token12-0.png","images/token12-1.png","images/token12-2.png","images/token12-3.png"],ctx,"gato","conejo"));
+    this.tokensPlayer2.push(new Token(-100,-100,["images/token9-0.png","images/token9-1.png","images/token9-2.png","images/token9-3.png"],ctx,"gallo","caballo"));
+    this.tokensPlayer1.push(new Token(-100,-100,["images/token10-0.png","images/token10-1.png","images/token10-2.png","images/token10-3.png"],ctx,"vaca","caballo"));
+    this.tokensPlayer2.push(new Token(-100,-100,["images/token11-0.png","images/token11-1.png","images/token11-2.png","images/token11-3.png"],ctx,"vaca","conejo"));
+    this.tokensPlayer2.push(new Token(-100,-100,["images/token12-0.png","images/token12-1.png","images/token12-2.png","images/token12-3.png"],ctx,"conejo","caballo"));
     
     for(var i=0;i<this.tokensPlayer1.length;i++){
         this.tokensPlayer1[i].x=(50*i)+50;
@@ -137,22 +137,26 @@ var Game=function(message){
                     this.showCorrect();
                     if(res.token==0){
                         if(res.fig==1){
-                            this.tokens[0]={fig:this.selectedToken.fig1,x:this.selectedToken.fig1X,y:this.selectedToken.fig1Y};
+                            this.selectedToken.update();
+                            this.tokens[0]={fig:this.selectedToken.fig2,x:this.selectedToken.fig2X,y:this.selectedToken.fig2Y};
                             putToken=true;
                             
                         }
                         else if(res.fig==2){
-                            this.tokens[0]={fig:this.selectedToken.fig2,x:this.selectedToken.fig2X,y:this.selectedToken.fig2Y};
+                            this.selectedToken.update();
+                            this.tokens[0]={fig:this.selectedToken.fig1,x:this.selectedToken.fig1X,y:this.selectedToken.fig1Y};
                             putToken=true;
                         }
                     }
                     else if(res.token==1){
                         if(res.fig==1){
-                            this.tokens[1]={fig:this.selectedToken.fig1,x:this.selectedToken.fig1X,y:this.selectedToken.fig1Y};
+                            this.selectedToken.update();
+                            this.tokens[1]={fig:this.selectedToken.fig2,x:this.selectedToken.fig2X,y:this.selectedToken.fig2Y};
                             putToken=true;
                         }
                         else if(res.fig==2){
-                            this.tokens[1]={fig:this.selectedToken.fig2,x:this.selectedToken.fig2X,y:this.selectedToken.fig2Y};
+                            this.selectedToken.update();
+                            this.tokens[1]={fig:this.selectedToken.fig1,x:this.selectedToken.fig1X,y:this.selectedToken.fig1Y};
                             putToken=true;
                         }
                     }
@@ -170,6 +174,7 @@ var Game=function(message){
                 console.log(this.tokensPlayer2)
                 this.selectedToken.setNotSelected(true);
             }
+            console.log(this.tokens)
             // if(this.selectedToken.isIn()){
             //     if(this.turn==0){
             //         this.tokens.push(this.tokensPlayer1[this.positionToken]);
