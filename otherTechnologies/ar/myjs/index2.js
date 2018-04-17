@@ -105,6 +105,7 @@
 						player.addScore();
 					}
 					showCorrect();
+					turn.changeTurn();
 				}
 				else if(element[0].shape==animals[1].shape && isOrtogonal(element[0],animals[0])){
 					animals.splice(1,1);animals.push(element[1]);element.used=true;
@@ -112,6 +113,7 @@
 						player.addScore();
 					}
 					showCorrect();
+					turn.changeTurn();
 				}
 			}
 			else if(element[1].timeVisible>=timeVisible && !element.used && animals.length>0){
@@ -121,12 +123,14 @@
 						player.addScore();
 					}
 					showCorrect();
+					turn.changeTurn();
 				}
 				else if(element[1].shape==animals[1].shape && isOrtogonal(element[1],animals[1])){
-					showCorrect();
 					if(turn.getTurn()=="p2"){
 						player.addScore();
 					}
+					showCorrect();
+					turn.changeTurn();
 					animals.splice(1,1);animals.push(element[0]);element.used=true;
 				}
 			}
