@@ -89,11 +89,12 @@
 			return this.questions[this.question];
 		},
 		isCorrect(res){
-			if(res==="A"){
+			var r=["A","B","C"];
+			if(r[this.question]==res){
 				return true;
 			}
 			else{
-				return false;
+				return false
 			}
 		},isEnd(){
 			if(this.question>=this.questions.length){
@@ -163,6 +164,17 @@
 		}
 		else if(!game.isEnd() && this.out && markers[0].visible && markers[2].visible && isNear(markers[0].position.x,markers[0].position.y,markers[2].position.x,markers[2].position.y)){
 			if(game.isCorrect("B")){
+				showCorrect();
+				game.nextQuestion();
+				this.out=false;
+				document.getElementById("mensaje").innerText=game.getQuestion();
+			}
+			else{
+				showIncorrect();
+			}
+		}
+		else if(!game.isEnd() && this.out && markers[0].visible && markers[3].visible && isNear(markers[0].position.x,markers[0].position.y,markers[3].position.x,markers[3].position.y)){
+			if(game.isCorrect("C")){
 				showCorrect();
 				game.nextQuestion();
 				this.out=false;
