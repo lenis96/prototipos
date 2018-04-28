@@ -9,8 +9,8 @@
 	paths=[THREEx.ArToolkitContext.baseURL + '../data/data/marker0.pat',THREEx.ArToolkitContext.baseURL + '../data/data/marker1.pat',THREEx.ArToolkitContext.baseURL + '../data/data/marker2.pat',THREEx.ArToolkitContext.baseURL + '../data/data/marker3.pat',
 	THREEx.ArToolkitContext.baseURL + '../data/data/marker4.pat',THREEx.ArToolkitContext.baseURL + '../data/data/marker5.pat'];
 	names=["player","option1A","option1B","marker3"];
-	objPaths=["p1.obj","p2.obj","p3.obj","p4.obj","p1.obj","p2.obj"];
-	mtlPaths=["p1.mtl","p2.mtl","p3.mtl","p4.mtl","p1.mtl","p2.mtl"];
+	objPaths=["cow.obj","water.obj","grass.obj","house.obj","p1.obj","p2.obj"];
+	mtlPaths=["cow.mtl","water.mtl","grass.mtl","house.mtl","p1.mtl","p2.mtl"];
 	for(var i=0;i<paths.length;i++){
 		markerRoot=new THREE.Group;
 		markerRoot.name=names[i];
