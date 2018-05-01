@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
     <title>Dominó de Animales</title>
     <style>
     .gameArea{
@@ -12,8 +13,23 @@
     </style>
 </head>
 <body>
-    <h1>Dominó con Animales</h1>
-    <canvas id="gameArea" class="gameArea"></canvas>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <h1>Dominó con Animales</h1>
+                <canvas id="gameArea" class="gameArea"></canvas>
+            </div>
+            <div class="col-md-4">
+                <h2>Instrucciones</h2>
+                <ul>
+                    <li>Seleccionar una ficha de las que se encuentra dentro el rectangulo gris y mientras que se tiene presionado moverla a la posicion que se desea dentro de la cudricula.</li>
+                    <li>El jugador que sigue debe seleccionar una ficha que coinsida con un fugura en los extremos del dominó.</li>
+                    <li>Se puede voltear la orientación de la figura mientras se tiene seleccionada la figura con las teclas de izquierda y derecha.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
     <script src="Token.js"></script>
     <script src="game2.js"></script>
     
