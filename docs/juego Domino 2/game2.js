@@ -69,10 +69,12 @@ var Game=function(message){
     for(var i=0;i<this.tokensPlayer1.length;i++){
         this.tokensPlayer1[i].x=(50*i)+50;
         this.tokensPlayer1[i].y=410;
+        this.tokensPlayer1[i].setOldPos();
     }
     for(var i=0;i<this.tokensPlayer2.length;i++){
         this.tokensPlayer2[i].x=-100;
         this.tokensPlayer2[i].y=-100;
+        this.tokensPlayer2[i].setOldPos();
     }
     var obj=this;
     this.draw();
@@ -163,12 +165,15 @@ var Game=function(message){
                 }
             }
             else{
-                this.tokens[0]={fig:this.selectedToken.fig1,x:this.selectedToken.fig1X,y:this.selectedToken.fig1Y};
-                this.tokens[1]={fig:this.selectedToken.fig2,x:this.selectedToken.fig2X,y:this.selectedToken.fig2Y};
-                this.putTokens.push(this.tokensPlayer1[this.positionToken]);
-                this.tokensPlayer1.splice(this.positionToken,1);
-                putToken=true;
-                this.changeTurn();
+                if(this.selectedToken.y<300){
+                    console.log("cdnsj")
+                    this.tokens[0]={fig:this.selectedToken.fig1,x:this.selectedToken.fig1X,y:this.selectedToken.fig1Y};
+                    this.tokens[1]={fig:this.selectedToken.fig2,x:this.selectedToken.fig2X,y:this.selectedToken.fig2Y};
+                    this.putTokens.push(this.tokensPlayer1[this.positionToken]);
+                    this.tokensPlayer1.splice(this.positionToken,1);
+                    putToken=true;
+                    this.changeTurn();
+                }
             }
             if(!putToken){
                 console.log(this.tokensPlayer2)
