@@ -6,8 +6,8 @@
 		if(res<0){res+=360;}
 		return res;
 	}
-	var minDistAlign=4;
-	var minDistNear=5;
+	var minDistAlign=0.4;
+	var minDistNear=2;
 
 	texto=document.getElementById("texto");
 
@@ -80,6 +80,7 @@
 	function isOrtogonal(element1,element2){
 		ans=false;
 		console.log({dx:Math.abs(element1.position.x-element2.position.x),dy:Math.abs(element1.position.y-element2.position.y)})
+		console.log('x',element1.position.x-element2.position.x);
 		if(Math.abs(element1.position.x-element2.position.x)<minDistAlign){
 			if(Math.abs(element1.position.y-element2.position.y)<minDistNear){
 				ans=true;
@@ -109,6 +110,8 @@
 				var x=(element[0].position.x+element[1].position.x)/2;
 				var y=(element[0].position.y+element[1].position.y)/2;
 				var currentAng=(Math.PI*angulo(element[0].position.x,element[0].position.y,element[1].position.x,element[1].position.y))/180;
+				currentAng-=Math.PI/2;
+				console.log('ang',currentAng);
 				element[0].grid.position.set(x+(0.5*Math.sin(currentAng)),0,y+(0.5*Math.cos(currentAng)));
 				element[1].grid.position.set(x-(0.5*Math.sin(currentAng)),0,y-(0.5*Math.cos(currentAng)));
 				element[0].grid.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0),currentAng);

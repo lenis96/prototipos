@@ -6,8 +6,8 @@
 		if(res<0){res+=360;}
 		return res;
 	}
-	var minDistAlign=4;
-	var minDistNear=5;
+	var minDistAlign=0.4;
+	var minDistNear=2;
 
 	var markers=[];
 	for(var i=0;i<scene.children.length;i++){
