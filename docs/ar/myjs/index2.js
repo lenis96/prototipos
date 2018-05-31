@@ -49,7 +49,7 @@
 					setTimeout(function(){
 						document.getElementById("correct").classList.remove("img");
 						document.getElementById("correct").classList.add("hidden");
-					},2000);
+					},4000);
 	}
 	function isOrtogonal(element1,element2){
 		ans=false;

@@ -75,7 +75,7 @@
 					setTimeout(function(){
 						document.getElementById("correct").classList.remove("img");
 						document.getElementById("correct").classList.add("hidden");
-					},2000);
+					},4000);
 	}
 	function isOrtogonal(element1,element2){
 		ans=false;
@@ -116,6 +116,10 @@
 				element[1].grid.position.set(x-(0.5*Math.sin(currentAng)),0,y-(0.5*Math.cos(currentAng)));
 				element[0].grid.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0),currentAng);
 				element[1].grid.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0),currentAng);
+			}
+			else{
+				element[0].grid.set.position.set(-100,-100,-100);
+				element[1].grid.set.position.set(-100,-100,-100);
 			}
 			if(!element[0].visible){
 				element[0].timeVisible=0;
