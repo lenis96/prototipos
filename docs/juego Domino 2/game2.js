@@ -1,6 +1,6 @@
 var gameArea=document.getElementById("gameArea");
-gameArea.width=500;
-gameArea.height=500;
+gameArea.width=800;
+gameArea.height=700;
 gameArea.addEventListener("click",function(event){
     game.updateGame();
     console.log(event.offsetX+" "+event.offsetY);
@@ -13,7 +13,7 @@ var Game=function(message){
         var dx=20;
         var dy=20;
         var iniX=10,iniY=10;
-        var endX=450,endY=350;
+        var endX=750,endY=350;
         while(x<=endX){
             ctx.beginPath();
             ctx.moveTo(x,iniY);
@@ -51,7 +51,7 @@ var Game=function(message){
     this.draw=function(){
         this.drawGrid();
         ctx.fillStyle = "#ccc";
-        ctx.fillRect(30, 400,340, 100);
+        ctx.fillRect(30, 400,640, 190);
     }
     this.tokensPlayer1.push(new Token(-100,-100,["images/new/token2-0.png","images/new/token2-1.png","images/new/token2-2.png","images/new/token2-3.png"],ctx,"gato","perroP"));
     this.tokensPlayer2.push(new Token(-100,-100,["images/new/token3-0.png","images/new/token3-1.png","images/new/token3-2.png","images/new/token3-3.png"],ctx,"gato","perroF"));
@@ -67,7 +67,7 @@ var Game=function(message){
     this.tokensPlayer1.push(new Token(-100,-100,["images/new/token10-0.png","images/new/token10-1.png","images/new/token10-2.png","images/new/token10-3.png"],ctx,"jirafa","perroF"));
     
     for(var i=0;i<this.tokensPlayer1.length;i++){
-        this.tokensPlayer1[i].x=(50*i)+50;
+        this.tokensPlayer1[i].x=(100*i)+50;
         this.tokensPlayer1[i].y=410;
         this.tokensPlayer1[i].setOldPos();
     }
@@ -211,7 +211,7 @@ var Game=function(message){
     this.changeTurn=function(){
         if(this.turn==1){
             for(var i=0;i<this.tokensPlayer1.length;i++){
-                this.tokensPlayer1[i].x=(50*i)+50;
+                this.tokensPlayer1[i].x=(100*i)+50;
                 this.tokensPlayer1[i].y=410;
                 this.tokensPlayer1[i].setOldPos();
             }
@@ -224,7 +224,7 @@ var Game=function(message){
         }
         else{
             for(var i=0;i<this.tokensPlayer2.length;i++){
-                this.tokensPlayer2[i].x=(50*i)+50;
+                this.tokensPlayer2[i].x=(100*i)+50;
                 this.tokensPlayer2[i].y=410;
                 this.tokensPlayer2[i].setOldPos();
             }
