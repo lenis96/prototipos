@@ -72,7 +72,20 @@
 		}
 		return ans;
 	}
+	started=false;
+	document.onkeydown = checkKey;
+	function checkKey(e) {
+
+        e = e || window.event;
+		console.log(e.keyCode);
+		if(e.keyCode=='13'){
+			started=true;
+			document.getElementById('mensajeInicio').innerHTML='comenzado';
+		}
+
+    }
 	onRenderFcts.push(function(){
+		console.log(started);
 		pieces.forEach(function(element){
 			if(!element[0].visible){
 				element[0].timeVisible=0;
@@ -87,7 +100,7 @@
 				element[1].timeVisible++;
 			}
 			//TODO logica para ver si el marcador se encuentra estatico, (parece que no se requiere)
-			if(element[0].timeVisible>=timeVisible && element[1].timeVisible>=timeVisible && animals.length==0){
+			if(element[0].timeVisible>=timeVisible && element[1].timeVisible>=timeVisible && animals.length==0 && started){
 				animals.push(element[0]);
 				animals.push(element[1]);
 				console.log(animals.map(function(x){return x.shape}));

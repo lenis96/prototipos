@@ -100,13 +100,25 @@
 		return ans;
 	}
 	a=true;
+	started=false;
+	document.onkeydown = checkKey;
+	function checkKey(e) {
+
+        e = e || window.event;
+		console.log(e.keyCode);
+		if(e.keyCode=='13'){
+			started=true;
+			document.getElementById('mensajeInicio').innerHTML='comenzado';
+		}
+
+    }
 	onRenderFcts.push(function(){
 	// 	var geometry = lineMesh.geometry
 	// 	geometry.vertices[0].copy(markerRoot1.position)
 		// console.log(markerRoot1.position);
 		pieces.forEach(function(element){
 			// console.log(element.name);
-			if(element[0].visible && element[1].visible){
+			if((element[0].visible && element[1].visible) || element.used){
 				var x=(element[0].position.x+element[1].position.x)/2;
 				var y=(element[0].position.y+element[1].position.y)/2;
 				var currentAng=(Math.PI*angulo(element[0].position.x,element[0].position.y,element[1].position.x,element[1].position.y))/180;
@@ -118,8 +130,8 @@
 				element[1].grid.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0),currentAng);
 			}
 			else{
-				element[0].grid.set.position.set(-100,-100,-100);
-				element[1].grid.set.position.set(-100,-100,-100);
+				element[0].grid.position.set(-100,-100,-100);
+				element[1].grid.position.set(-100,-100,-100);
 			}
 			if(!element[0].visible){
 				element[0].timeVisible=0;
@@ -134,7 +146,8 @@
 				element[1].timeVisible++;
 			}
 			//TODO logica para ver si el marcador se encuentra estatico
-			if(element[0].timeVisible>=timeVisible && element[1].timeVisible>=timeVisible && animals.length==0){
+			console.log(started);
+			if(element[0].timeVisible>=timeVisible && element[1].timeVisible>=timeVisible && animals.length==0 && started){
 				animals.push(element[0]);
 				animals.push(element[1]);
 				console.log(animals.map(function(x){return x.shape}));

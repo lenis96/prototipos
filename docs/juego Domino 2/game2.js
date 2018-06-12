@@ -137,6 +137,18 @@ var Game=function(message){
                     }
                     this.changeTurn();
                     this.showCorrect();
+                    if(this.turn==1){
+                        var elem=document.createElement("img");
+                        elem.src="images/happy.png";
+                        elem.width="50";
+                        document.getElementById("scores").appendChild(elem);
+                    }
+                    if(this.turn==0){
+                        var elem=document.createElement("img");
+                        elem.src="images/happy.png";
+                        elem.width="50";
+                        document.getElementById("scores2").appendChild(elem);
+                    }
                     if(res.token==0){
                         if(res.fig==1){
                             this.selectedToken.update();

@@ -34,6 +34,7 @@
 				objLoader.load(objPath,function(object){
 					object.position.set(0,0,10);
 					object.rotateY(90);
+					object.scale.set(0.6,0.6,0.6);
 					object.isShape=true;
 					marker.grid=object;
 					parent.add(object);
@@ -144,9 +145,9 @@
 				// element[1].grid.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0),currentAng);
 	
 			}
-			else{
-				element.grid.set.position.set(-100,-100,-100);
-			}
+			// else{
+			// 	element.grid.position.set(-100,-100,-100);
+			// }
 
 		})
 		console.log(this.out)
