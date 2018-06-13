@@ -4,8 +4,9 @@ var Token=function(x,y,imagePath,ctx,fig1="",fig2=""){
     this.imagePath=imagePath;
     this.hold=false;
     this.image=[];
-    this.width=40;
-    this.height=80;
+    this.size=80;
+    this.width=this.size;
+    this.height=this.size*2;
     // this.width=[40,80,40,80];
     // this.height=[80,40,80,40];
     for(var i=0;i<4;i+=2){
@@ -13,8 +14,8 @@ var Token=function(x,y,imagePath,ctx,fig1="",fig2=""){
         this.image[i].src=this.imagePath[i];
         this.image[i].onload=function(){
             obj.update();
-            obj.width=80;
-            obj.height=40;
+            obj.width=160;
+            obj.height=80;
         }
     }
     for(var i=1;i<4;i+=2){
@@ -22,8 +23,8 @@ var Token=function(x,y,imagePath,ctx,fig1="",fig2=""){
         this.image[i].src=this.imagePath[i];
         this.image[i].onload=function(){
             obj.update();
-            obj.width=40;
-            obj.height=80;
+            obj.width=80;
+            obj.height=160;
         }
     }
     this.ctx=ctx;
@@ -41,32 +42,32 @@ var Token=function(x,y,imagePath,ctx,fig1="",fig2=""){
             this.y=mousePos.y-this.offsetY;
         }
         if(this.orientation==0 || this.orientation==2){
-            var width=40;
-            var height=80;
+            var width=this.size;
+            var height=this.size*2;
         }  
         else if(this.orientation==1 || this.orientation==3){
-            var width=80;
-            var height=40;
+            var width=this.size*2;
+            var height=this.size;
         }
         if(this.orientation==0){
-            this.fig1X=this.fig2X=this.x+20;
-            this.fig1Y=this.y+20;
-            this.fig2Y=this.y+60;
+            this.fig1X=this.fig2X=this.x+(this.size/2);
+            this.fig1Y=this.y+(this.size/2);
+            this.fig2Y=this.y+this.size+(this.size/2);
         }
         if(this.orientation==1){
-            this.fig1Y=this.fig2Y=this.y+20;
-            this.fig1X=this.x+60;
-            this.fig2X=this.x+20;
+            this.fig1Y=this.fig2Y=this.y+(this.size/2);
+            this.fig1X=this.x+this.size+(this.size/2);
+            this.fig2X=this.x+(this.size/2);
         }
         else if(this.orientation==2){
-            this.fig1X=this.fig2X=this.x+20;
-            this.fig2Y=this.y+20;
-            this.fig1Y=this.y+60;
+            this.fig1X=this.fig2X=this.x+(this.size/2);
+            this.fig2Y=this.y+(this.size/2);
+            this.fig1Y=this.y+this.size+(this.size/2);
         }
         if(this.orientation==3){
-            this.fig1Y=this.fig2Y=this.y+20;
-            this.fig1X=this.x+20;
-            this.fig2X=this.x+60;
+            this.fig1Y=this.fig2Y=this.y+(this.size/2);
+            this.fig1X=this.x+(this.size/2);
+            this.fig2X=this.x+this.size+(this.size/2);
         }
         this.ctx.drawImage(this.image[this.orientation],this.x,this.y,width,height);
 
@@ -240,7 +241,7 @@ var Token=function(x,y,imagePath,ctx,fig1="",fig2=""){
     }
     this.isNear=function(fig,token){
         if(fig==1){
-            if((this.fig1X-token.x)**2+(this.fig1Y-token.y)**2<=45**2){
+            if((this.fig1X-token.x)**2+(this.fig1Y-token.y)**2<=90**2){
                 return true;
             }
             else{
@@ -248,7 +249,7 @@ var Token=function(x,y,imagePath,ctx,fig1="",fig2=""){
             }
         }
         else if(fig=2){
-            if((this.fig2X-token.x)**2+(this.fig2Y-token.y)**2<=45**2){
+            if((this.fig2X-token.x)**2+(this.fig2Y-token.y)**2<=90**2){
                 return true;
             }
             else{

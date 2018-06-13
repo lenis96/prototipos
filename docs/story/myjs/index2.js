@@ -34,6 +34,7 @@
 				objLoader.load(objPath,function(object){
 					object.position.set(0,0,10);
 					object.rotateY(90);
+					object.scale.set(0.6,0.6,0.6);
 					object.isShape=true;
 					marker.grid=object;
 					parent.add(object);
@@ -54,7 +55,7 @@
 		document.getElementById("correct").classList.remove("hidden");
 					setTimeout(function(){
 						document.getElementById("correct").classList.add("hidden");
-					},2000);
+					},4000);
 	}
 	// function isOrtogonal(element1,element2){
 	// 	ans=false;
@@ -123,13 +124,13 @@
 		document.getElementById("correct").classList.remove("hidden");
 					setTimeout(function(){
 						document.getElementById("correct").classList.add("hidden");
-					},2000);
+					},4000);
 	}
 	var showIncorrect=function(){
 		document.getElementById("incorrect").classList.remove("hidden");
 					setTimeout(function(){
 						document.getElementById("incorrect").classList.add("hidden");
-					},2000);
+					},4000);
 	}
 	onRenderFcts.push(function(){
 		markers.forEach(function(element){
@@ -144,6 +145,9 @@
 				// element[1].grid.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0),currentAng);
 	
 			}
+			// else{
+			// 	element.grid.position.set(-100,-100,-100);
+			// }
 
 		})
 		console.log(this.out)
